@@ -8,7 +8,7 @@ import PlayerBar from "@/components/PlayerBar";
 import { groups } from "@/data/groups";
 import { tracks, type Track } from "@/data/tracks";
 import { filterTracks, getAllTags, sortTracks } from "@/lib/filters";
-import type { FiltersState, SortOption } from "@/lib/filters";
+import type { FiltersState } from "@/lib/filters";
 import { usePlayerStore } from "@/lib/player/store";
 
 const sortGroups = [...groups].sort((a, b) => a.order - b.order);
@@ -27,13 +27,28 @@ export default function Home() {
     search: "",
     groupId: "all",
     tags: [],
-    sort: "group",
   });
 
   const setQueue = usePlayerStore((state) => state.setQueue);
   const enqueue = usePlayerStore((state) => state.enqueue);
 
   const allTags = useMemo(() => getAllTags(tracks), [tracks]);
+  const groupCounts = useMemo(() => {
+    const counts: Record<string, number> = { all: tracks.length };
+    for (const track of tracks) {
+      counts[track.groupId] = (counts[track.groupId] ?? 0) + 1;
+    }
+    return counts;
+  }, []);
+  const tagCounts = useMemo(() => {
+    const counts: Record<string, number> = {};
+    for (const track of tracks) {
+      for (const tag of track.tags) {
+        counts[tag] = (counts[tag] ?? 0) + 1;
+      }
+    }
+    return counts;
+  }, []);
 
   const filteredTracks = useMemo(
     () => filterTracks(tracks, groups, filters),
@@ -45,18 +60,18 @@ export default function Home() {
       const groupTracks = filteredTracks.filter(
         (track) => track.groupId === group.id,
       );
-      return sortTracks(groupTracks, filters.sort);
+      return sortTracks(groupTracks);
     });
-  }, [filteredTracks, filters.sort]);
+  }, [filteredTracks]);
 
   const playableTracks = useMemo(() => {
     return sortGroups.flatMap((group) => {
       const groupTracks = filteredTracks.filter(
         (track) => track.groupId === group.id,
       );
-      return sortTracks(groupTracks, filters.sort);
+      return sortTracks(groupTracks);
     });
-  }, [filteredTracks, filters.sort]);
+  }, [filteredTracks]);
 
   const handlePlayTrack = (track: Track, context: Track[]) => {
     const startIndex = context.findIndex((item) => item.id === track.id);
@@ -65,7 +80,7 @@ export default function Home() {
 
   const handlePlayGroup = (groupId: string, shouldShuffle: boolean) => {
     const groupTracks = filteredTracks.filter((track) => track.groupId === groupId);
-    const ordered = sortTracks(groupTracks, filters.sort);
+    const ordered = sortTracks(groupTracks);
     setQueue(shouldShuffle ? shuffleArray(ordered) : ordered, 0);
   };
 
@@ -94,12 +109,8 @@ export default function Home() {
     });
   };
 
-  const handleSortChange = (value: SortOption) => {
-    setFilters((prev) => ({ ...prev, sort: value }));
-  };
-
   const handleClearFilters = () => {
-    setFilters({ search: "", groupId: "all", tags: [], sort: "group" });
+    setFilters({ search: "", groupId: "all", tags: [] });
   };
 
   return (
@@ -108,14 +119,14 @@ export default function Home() {
       <FiltersBar
         groups={sortGroups}
         allTags={allTags}
+        groupCounts={groupCounts}
+        tagCounts={tagCounts}
         search={filters.search}
         groupId={filters.groupId}
         selectedTags={filters.tags}
-        sort={filters.sort}
         onSearchChange={handleSearchChange}
         onGroupChange={handleGroupChange}
         onTagToggle={handleTagToggle}
-        onSortChange={handleSortChange}
         onClearFilters={handleClearFilters}
       />
 

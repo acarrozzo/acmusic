@@ -1,13 +1,10 @@
 import type { Group } from "@/data/groups";
 import type { Track } from "@/data/tracks";
 
-export type SortOption = "group" | "newest" | "az";
-
 export type FiltersState = {
   search: string;
   groupId: string | "all";
   tags: string[];
-  sort: SortOption;
 };
 
 export const getAllTags = (tracks: Track[]) => {
@@ -56,18 +53,5 @@ export const filterTracks = (
   });
 };
 
-export const sortTracks = (tracks: Track[], sort: SortOption) => {
-  if (sort === "group") {
-    return [...tracks].sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
-  }
-
-  if (sort === "newest") {
-    return [...tracks].sort((a, b) => {
-      const aDate = a.releaseDate ? Date.parse(a.releaseDate) : 0;
-      const bDate = b.releaseDate ? Date.parse(b.releaseDate) : 0;
-      return bDate - aDate;
-    });
-  }
-
-  return [...tracks].sort((a, b) => a.title.localeCompare(b.title));
-};
+export const sortTracks = (tracks: Track[]) =>
+  [...tracks].sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
