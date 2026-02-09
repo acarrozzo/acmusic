@@ -17,7 +17,7 @@ export const groups: Group[] = [
     tagline: "Baroque heat, modern bones.",
     description:
       "Dramatic, painterly songs with bold contrasts and bright edges.",
-    brand: { accent: "#c28a5c", markText: "CR" },
+    brand: { accent: "#d32f2f", markText: "CR" },
     order: 1,
   },
   {
@@ -26,7 +26,7 @@ export const groups: Group[] = [
     tagline: "Songs from the quiet room.",
     description:
       "Soft-spoken compositions with devotional harmony and slow glow.",
-    brand: { accent: "#9aa5b1", markText: "SA" },
+    brand: { accent: "#1976d2", markText: "SA" },
     order: 2,
   },
   {

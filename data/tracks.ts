@@ -35,12 +35,12 @@ export const tracks: Track[] = [
     description: "A baroque pulse with a luminous, modern chorus.",
     tags: ["baroque-pop", "dark", "anthemic"],
     artwork: {
-      src: "/next.svg",
+      src: "/songs/Placeholder/placeholder.png",
       alt: "Ashen Halo artwork placeholder",
     },
     audio: {
-      sunoCoverUrl: "/audio/ashen-halo.mp3",
-      originalUrl: "/audio/ashen-halo-original.mp3",
+      sunoCoverUrl: "/songs/Placeholder/placeholder.mp3",
+      originalUrl: "/songs/Placeholder/placeholder.mp3",
     },
     lyrics: {
       text:
@@ -64,11 +64,11 @@ export const tracks: Track[] = [
     description: "Strings and synths collide in slow motion.",
     tags: ["cinematic", "strings", "lush"],
     artwork: {
-      src: "/next.svg",
+      src: "/songs/Placeholder/placeholder.png",
       alt: "Gilded Static artwork placeholder",
     },
     audio: {
-      sunoCoverUrl: "/audio/gilded-static.mp3",
+      sunoCoverUrl: "/songs/Placeholder/placeholder.mp3",
     },
     lyrics: {
       text:
@@ -81,17 +81,46 @@ export const tracks: Track[] = [
     order: 2,
   },
   {
+    id: "cr-hold-my-breath-forever",
+    groupId: "caravaggios-revenge",
+    title: "Hold my Breath Forever",
+    description: "Baroque drama with a suspended, breath-held hook.",
+    tags: ["baroque", "dramatic", "anthemic"],
+    artwork: {
+      src: "/songs/Hold my Breath Forever/holdmybreathforever.png",
+      alt: "Hold my Breath Forever artwork",
+    },
+    audio: {
+      sunoCoverUrl:
+        "/songs/Hold my Breath Forever/Hold my Breath Forever - 2-1- (50,50,25)-D-P-NEW lyric structure.mp3",
+      originalUrl:
+        "/songs/Hold my Breath Forever/original-cr-Hold my Breath Forever.mp3",
+    },
+    lyrics: {
+      text:
+        "Hold my breath forever, count the spark\n" +
+        "Freeze the light beneath the mark\n" +
+        "Let the silence keep the dark",
+    },
+    originalRef: {
+      year: 2014,
+      description: "Original demo recorded in a late-night session.",
+    },
+    downloads: { allow: true, filename: "hold-my-breath-forever.mp3" },
+    order: 3,
+  },
+  {
     id: "sa-slow-altar",
     groupId: "saint-anthony",
     title: "Slow Altar",
     description: "Warm organ tones and a patient, devotional refrain.",
     tags: ["ambient", "sacred", "slow"],
     artwork: {
-      src: "/next.svg",
+      src: "/songs/Placeholder/placeholder.png",
       alt: "Slow Altar artwork placeholder",
     },
     audio: {
-      sunoCoverUrl: "/audio/slow-altar.mp3",
+      sunoCoverUrl: "/songs/Placeholder/placeholder.mp3",
     },
     lyrics: {
       text:
@@ -110,12 +139,12 @@ export const tracks: Track[] = [
     description: "A late-night hymn with glassy harmonics.",
     tags: ["hymn", "glass", "minimal"],
     artwork: {
-      src: "/next.svg",
+      src: "/songs/Placeholder/placeholder.png",
       alt: "Mirror Vespers artwork placeholder",
     },
     audio: {
-      sunoCoverUrl: "/audio/mirror-vespers.mp3",
-      originalUrl: "/audio/mirror-vespers-original.mp3",
+      sunoCoverUrl: "/songs/Placeholder/placeholder.mp3",
+      originalUrl: "/songs/Placeholder/placeholder.mp3",
     },
     lyrics: {
       text:
@@ -132,17 +161,40 @@ export const tracks: Track[] = [
     order: 2,
   },
   {
+    id: "sa-she-knows",
+    groupId: "saint-anthony",
+    title: "She Knows",
+    description: "Trip-hop pulse with a soft metallic chorus.",
+    tags: ["trip-hop", "moody", "metallic"],
+    artwork: {
+      src: "/songs/She Knows/sheknows.png",
+      alt: "She Knows artwork",
+    },
+    audio: {
+      sunoCoverUrl:
+        "/songs/She Knows/She Knows - 2-7 - TRIPHOPMETALCORE- (50,50) - D - new voice style test.mp3",
+    },
+    lyrics: {
+      text:
+        "She knows the frame, she knows the light\n" +
+        "Metal rain in velvet night\n" +
+        "Hold the line and hold me tight",
+    },
+    downloads: { allow: true, filename: "she-knows.mp3" },
+    order: 3,
+  },
+  {
     id: "oe-tilt-the-floor",
     groupId: "odd-emcee",
     title: "Tilt the Floor",
     description: "A kinetic rap cut with skewed drum patterns.",
     tags: ["hip-hop", "off-kilter", "rhythmic"],
     artwork: {
-      src: "/next.svg",
+      src: "/songs/Placeholder/placeholder.png",
       alt: "Tilt the Floor artwork placeholder",
     },
     audio: {
-      sunoCoverUrl: "/audio/tilt-the-floor.mp3",
+      sunoCoverUrl: "/songs/Placeholder/placeholder.mp3",
     },
     lyrics: {
       text:
