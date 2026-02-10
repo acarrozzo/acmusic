@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useEffect, useMemo } from "react";
+import { Pause, Play, Repeat, Repeat1, Shuffle, SkipBack, SkipForward } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 import { usePlayerStore } from "@/lib/player/store";
@@ -90,23 +91,35 @@ export default function PlayerBar() {
           </div>
           <div className="flex flex-wrap items-center gap-2">
             <QueueDrawer />
-            <Button variant="ghost" onClick={() => setShuffle(!shuffle)}>
-              {shuffle ? "Shuffle On" : "Shuffle Off"}
+            <Button variant="ghost" size="icon" onClick={() => setShuffle(!shuffle)} className={shuffle ? "text-white" : "text-white/40"}>
+              <Shuffle className="size-4" />
             </Button>
             <Button
               variant="ghost"
+              size="icon"
+              className={repeat !== "off" ? "text-white" : "text-white/40"}
               onClick={() =>
                 setRepeat(repeat === "off" ? "all" : repeat === "all" ? "one" : "off")
               }
             >
-              {repeatLabel}
+              {repeat === "one" ? (
+                <Repeat1 className="size-4" />
+              ) : (
+                <Repeat className="size-4" />
+              )}
             </Button>
-            <Button variant="secondary" onClick={prev}>
-              Prev
+            <Button variant="ghost" size="icon" onClick={prev}>
+              <SkipBack className="size-4" />
             </Button>
-            <Button onClick={togglePlay}>{isPlaying ? "Pause" : "Play"}</Button>
-            <Button variant="secondary" onClick={next}>
-              Next
+            <Button size="icon" onClick={togglePlay}>
+              {isPlaying ? (
+                <Pause className="size-4" />
+              ) : (
+                <Play className="size-4" />
+              )}
+            </Button>
+            <Button variant="ghost" size="icon" onClick={next}>
+              <SkipForward className="size-4" />
             </Button>
           </div>
         </div>

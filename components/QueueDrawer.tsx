@@ -1,5 +1,6 @@
 "use client";
 
+import { ListMusic } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
@@ -20,7 +21,12 @@ export default function QueueDrawer() {
   return (
     <Sheet>
       <SheetTrigger asChild>
-        <Button variant="outline">Queue</Button>
+        <Button variant="outline" className="relative">
+          <ListMusic className="size-4" />
+          {queue.length > 0 && (
+            <span className="ml-2 text-xs">{queue.length}</span>
+          )}
+        </Button>
       </SheetTrigger>
       <SheetContent side="bottom" className="max-h-[70vh]">
         <SheetHeader>

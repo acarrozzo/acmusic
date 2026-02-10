@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useMemo, useState } from "react";
 import type { Track } from "@/data/tracks";
+import { ChevronDown, ChevronUp, ListPlus, Play } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import TrackExpand from "./TrackExpand";
@@ -54,12 +55,20 @@ export default function TrackCard({ track, onPlay, onQueue }: TrackCardProps) {
           </div>
         </div>
         <div className="flex flex-wrap gap-2">
-          <Button onClick={() => onPlay(track)}>Play</Button>
+          <Button onClick={() => onPlay(track)}>
+            <Play className="mr-1.5 size-4" />
+            Play
+          </Button>
           <Button variant="secondary" onClick={() => onQueue(track)}>
+            <ListPlus className="mr-1.5 size-4" />
             Queue
           </Button>
-          <Button variant="ghost" onClick={() => setExpanded((value) => !value)}>
-            {expanded ? "Collapse" : "Expand"}
+          <Button variant="ghost" size="icon" onClick={() => setExpanded((value) => !value)}>
+            {expanded ? (
+              <ChevronUp className="size-4" />
+            ) : (
+              <ChevronDown className="size-4" />
+            )}
           </Button>
         </div>
       </div>

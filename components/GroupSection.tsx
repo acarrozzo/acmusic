@@ -12,6 +12,7 @@ type GroupSectionProps = {
   onPlayGroup: (groupId: string, shuffle: boolean) => void;
   onPlayTrack: (track: Track, context: Track[]) => void;
   onQueueTrack: (track: Track) => void;
+  onQueueGroup: (tracks: Track[]) => void;
 };
 
 export default function GroupSection({
@@ -20,6 +21,7 @@ export default function GroupSection({
   onPlayGroup,
   onPlayTrack,
   onQueueTrack,
+  onQueueGroup,
 }: GroupSectionProps) {
   if (tracks.length === 0) {
     return null;
@@ -38,8 +40,8 @@ export default function GroupSection({
           <div className="flex items-center gap-6">
             <div className="h-[160px] w-[160px] overflow-hidden rounded-2xl bg-white/5">
               <Image
-                src={tracks[0].artwork.src}
-                alt={tracks[0].artwork.alt ?? `${group.name} artwork`}
+                src={group.artwork?.src ?? tracks[0].artwork.src}
+                alt={group.artwork?.alt ?? tracks[0].artwork.alt ?? `${group.name} artwork`}
                 width={160}
                 height={160}
                 className="h-full w-full object-cover"
@@ -66,8 +68,8 @@ export default function GroupSection({
             <Button onClick={() => onPlayGroup(group.id, false)}>
               Play Album
             </Button>
-            <Button variant="secondary" onClick={() => onPlayGroup(group.id, true)}>
-              Shuffle Album
+            <Button variant="secondary" onClick={() => onQueueGroup(tracks)}>
+              Queue Album
             </Button>
           </div>
         </div>

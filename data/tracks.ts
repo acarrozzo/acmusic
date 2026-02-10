@@ -184,26 +184,33 @@ export const tracks: Track[] = [
     order: 3,
   },
   {
-    id: "oe-tilt-the-floor",
-    groupId: "odd-emcee",
-    title: "Tilt the Floor",
-    description: "A kinetic rap cut with skewed drum patterns.",
-    tags: ["hip-hop", "off-kilter", "rhythmic"],
+    id: "ss-placeholder",
+    groupId: "strange-sounds-for-strange-times",
+    title: "Placeholder",
+    description: "A placeholder track for Strange Sounds for Strange Times.",
+    tags: ["placeholder"],
     artwork: {
       src: "/songs/Placeholder/placeholder.png",
-      alt: "Tilt the Floor artwork placeholder",
+      alt: "Placeholder artwork",
     },
     audio: {
       sunoCoverUrl: "/songs/Placeholder/placeholder.mp3",
     },
-    lyrics: {
-      text:
-        "Tilt the floor, I move in code\n" +
-        "Every bar a compass road\n" +
-        "Kick the door, the rhythm owed",
+    order: 1,
+  },
+  {
+    id: "bfz-placeholder",
+    groupId: "banned-from-the-zoo",
+    title: "Placeholder",
+    description: "A placeholder track for Banned from the Zoo.",
+    tags: ["placeholder"],
+    artwork: {
+      src: "/songs/Placeholder/placeholder.png",
+      alt: "Placeholder artwork",
     },
-    releaseDate: "2025-09-23",
-    downloads: { allow: true, filename: "tilt-the-floor.mp3" },
+    audio: {
+      sunoCoverUrl: "/songs/Placeholder/placeholder.mp3",
+    },
     order: 1,
   },
 ];

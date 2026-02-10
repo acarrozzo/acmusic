@@ -128,31 +128,11 @@ export default function Home() {
         onGroupChange={handleGroupChange}
         onTagToggle={handleTagToggle}
         onClearFilters={handleClearFilters}
+        onPlayAll={() => handlePlayAll(false)}
+        onShuffleAll={() => handlePlayAll(true)}
       />
 
       <main className="pb-40">
-        <section className="mx-auto w-full max-w-6xl px-6 py-8">
-          <div className="flex flex-wrap items-center gap-3">
-            <button
-              onClick={() => handlePlayAll(false)}
-              className="rounded-full border border-white/30 px-5 py-2 text-sm text-white/90 transition hover:border-white hover:text-white"
-            >
-              Play All
-            </button>
-            <button
-              onClick={() => handlePlayAll(true)}
-              className="rounded-full border border-white/30 px-5 py-2 text-sm text-white/90 transition hover:border-white hover:text-white"
-            >
-              Shuffle All
-            </button>
-            {filters.groupId !== "all" || filters.tags.length > 0 || filters.search ? (
-              <p className="text-xs uppercase tracking-[0.3em] text-white/40">
-                Filters applied
-              </p>
-            ) : null}
-          </div>
-        </section>
-
         {sortGroups.map((group, index) => (
           <GroupSection
             key={group.id}
@@ -161,6 +141,7 @@ export default function Home() {
             onPlayGroup={handlePlayGroup}
             onPlayTrack={handlePlayTrack}
             onQueueTrack={enqueue}
+            onQueueGroup={(groupTracks) => groupTracks.forEach(enqueue)}
           />
         ))}
 
