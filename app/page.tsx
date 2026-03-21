@@ -1,19 +1,24 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import Header from "@/components/Header";
-import FiltersBar from "@/components/FiltersBar";
+import { Menu } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Sheet, SheetContent } from "@/components/ui/sheet";
+import Sidebar from "@/components/Sidebar";
+import TopBar from "@/components/TopBar";
 import GroupSection from "@/components/GroupSection";
-import PlayerBar from "@/components/PlayerBar";
+import TrackDetailPanel from "@/components/TrackDetailPanel";
+import MiniPlayerBar from "@/components/MiniPlayerBar";
+import AboutView from "@/components/AboutView";
 import { groups } from "@/data/groups";
 import { tracks, type Track } from "@/data/tracks";
 import { filterTracks, getAllTags, sortTracks } from "@/lib/filters";
 import type { FiltersState } from "@/lib/filters";
 import { usePlayerStore } from "@/lib/player/store";
 
-const sortGroups = [...groups].sort((a, b) => a.order - b.order);
+const sortedGroups = [...groups].sort((a, b) => a.order - b.order);
 
-const shuffleArray = <T,>(items: T[]) => {
+const shuffleArray = <T,>(items: T[]): T[] => {
   const next = [...items];
   for (let i = next.length - 1; i > 0; i -= 1) {
     const j = Math.floor(Math.random() * (i + 1));
@@ -28,11 +33,15 @@ export default function Home() {
     groupId: "all",
     tags: [],
   });
+  const [selectedTrack, setSelectedTrack] = useState<Track | null>(null);
+  const [view, setView] = useState<"music" | "about">("music");
+  const [mobileDrawerOpen, setMobileDrawerOpen] = useState(false);
 
-  const setQueue = usePlayerStore((state) => state.setQueue);
-  const enqueue = usePlayerStore((state) => state.enqueue);
+  const setQueue = usePlayerStore((s) => s.setQueue);
+  const enqueue = usePlayerStore((s) => s.enqueue);
 
-  const allTags = useMemo(() => getAllTags(tracks), [tracks]);
+  // Derived data
+  const allTags = useMemo(() => getAllTags(tracks), []);
   const groupCounts = useMemo(() => {
     const counts: Record<string, number> = { all: tracks.length };
     for (const track of tracks) {
@@ -49,149 +58,182 @@ export default function Home() {
     }
     return counts;
   }, []);
-
   const filteredTracks = useMemo(
     () => filterTracks(tracks, groups, filters),
-    [filters, groups, tracks],
+    [filters],
   );
+  const groupedTracks = useMemo(
+    () =>
+      sortedGroups.map((group) =>
+        sortTracks(filteredTracks.filter((t) => t.groupId === group.id)),
+      ),
+    [filteredTracks],
+  );
+  const playableTracks = useMemo(
+    () =>
+      sortedGroups.flatMap((group) =>
+        sortTracks(filteredTracks.filter((t) => t.groupId === group.id)),
+      ),
+    [filteredTracks],
+  );
+  const activeGroup = useMemo(
+    () =>
+      filters.groupId === "all"
+        ? null
+        : (sortedGroups.find((g) => g.id === filters.groupId) ?? null),
+    [filters.groupId],
+  );
+  const hasActiveFilters =
+    filters.search !== "" ||
+    filters.groupId !== "all" ||
+    filters.tags.length > 0;
 
-  const groupedTracks = useMemo(() => {
-    return sortGroups.map((group) => {
-      const groupTracks = filteredTracks.filter(
-        (track) => track.groupId === group.id,
-      );
-      return sortTracks(groupTracks);
-    });
-  }, [filteredTracks]);
-
-  const playableTracks = useMemo(() => {
-    return sortGroups.flatMap((group) => {
-      const groupTracks = filteredTracks.filter(
-        (track) => track.groupId === group.id,
-      );
-      return sortTracks(groupTracks);
-    });
-  }, [filteredTracks]);
-
+  // Handlers
   const handlePlayTrack = (track: Track, context: Track[]) => {
-    const startIndex = context.findIndex((item) => item.id === track.id);
+    const startIndex = context.findIndex((t) => t.id === track.id);
     setQueue(context, Math.max(0, startIndex));
   };
 
   const handlePlayGroup = (groupId: string, shouldShuffle: boolean) => {
-    const groupTracks = filteredTracks.filter((track) => track.groupId === groupId);
+    const groupTracks = filteredTracks.filter((t) => t.groupId === groupId);
     const ordered = sortTracks(groupTracks);
     setQueue(shouldShuffle ? shuffleArray(ordered) : ordered, 0);
   };
 
   const handlePlayAll = (shouldShuffle: boolean) => {
     const ordered = shouldShuffle ? shuffleArray(playableTracks) : playableTracks;
-    if (ordered.length > 0) {
-      setQueue(ordered, 0);
-    }
+    if (ordered.length > 0) setQueue(ordered, 0);
   };
 
-  const handleSearchChange = (value: string) => {
-    setFilters((prev) => ({ ...prev, search: value }));
-  };
-
-  const handleGroupChange = (value: string | "all") => {
-    setFilters((prev) => ({ ...prev, groupId: value }));
+  const handleGroupChange = (id: string | "all") => {
+    setFilters((prev) => ({ ...prev, groupId: id }));
   };
 
   const handleTagToggle = (tag: string) => {
-    setFilters((prev) => {
-      const exists = prev.tags.includes(tag);
-      return {
-        ...prev,
-        tags: exists ? prev.tags.filter((item) => item !== tag) : [...prev.tags, tag],
-      };
-    });
+    setFilters((prev) => ({
+      ...prev,
+      tags: prev.tags.includes(tag)
+        ? prev.tags.filter((t) => t !== tag)
+        : [...prev.tags, tag],
+    }));
   };
 
   const handleClearFilters = () => {
     setFilters({ search: "", groupId: "all", tags: [] });
   };
 
+  const handleSelectTrack = (track: Track) => {
+    setSelectedTrack((prev) => (prev?.id === track.id ? null : track));
+  };
+
+  const sidebarProps = {
+    groups: sortedGroups,
+    groupCounts,
+    allTags,
+    tagCounts,
+    groupId: filters.groupId,
+    selectedTags: filters.tags,
+    view,
+    onGroupChange: (id: string | "all") => {
+      handleGroupChange(id);
+      setMobileDrawerOpen(false);
+    },
+    onTagToggle: handleTagToggle,
+    onViewChange: (v: "music" | "about") => {
+      setView(v);
+      setMobileDrawerOpen(false);
+    },
+  };
+
   return (
-    <div className="min-h-screen bg-black text-white">
-      <Header />
-      <FiltersBar
-        groups={sortGroups}
-        allTags={allTags}
-        groupCounts={groupCounts}
-        tagCounts={tagCounts}
-        search={filters.search}
-        groupId={filters.groupId}
-        selectedTags={filters.tags}
-        onSearchChange={handleSearchChange}
-        onGroupChange={handleGroupChange}
-        onTagToggle={handleTagToggle}
-        onClearFilters={handleClearFilters}
-        onPlayAll={() => handlePlayAll(false)}
-        onShuffleAll={() => handlePlayAll(true)}
-      />
+    <div className="flex h-full">
+      {/* Desktop sidebar */}
+      <div className="hidden md:block">
+        <Sidebar {...sidebarProps} />
+      </div>
 
-      <main className="pb-40">
-        {sortGroups.map((group, index) => (
-          <GroupSection
-            key={group.id}
-            group={group}
-            tracks={groupedTracks[index] ?? []}
-            onPlayGroup={handlePlayGroup}
-            onPlayTrack={handlePlayTrack}
-            onQueueTrack={enqueue}
-            onQueueGroup={(groupTracks) => groupTracks.forEach(enqueue)}
+      {/* Mobile drawer */}
+      <Sheet open={mobileDrawerOpen} onOpenChange={setMobileDrawerOpen}>
+        <SheetContent
+          side="left"
+          className="w-64 border-white/10 bg-black p-0 [&>button]:hidden"
+        >
+          <Sidebar {...sidebarProps} />
+        </SheetContent>
+      </Sheet>
+
+      {/* Right side: content + mini player */}
+      <div className="flex min-w-0 flex-1 flex-col overflow-hidden">
+        {/* Mobile header */}
+        <div className="flex flex-shrink-0 items-center gap-3 border-b border-white/10 px-4 py-3 md:hidden">
+          <Button
+            variant="ghost"
+            size="icon"
+            className="size-8 text-white/60"
+            onClick={() => setMobileDrawerOpen(true)}
+          >
+            <Menu className="size-5" />
+          </Button>
+          <p className="text-sm font-medium tracking-wide text-white/70">
+            AC MUSIC
+          </p>
+        </div>
+
+        {/* Content row */}
+        <div className="flex min-h-0 flex-1 overflow-hidden">
+          {/* Main tracklist */}
+          <main className="flex-1 overflow-y-auto">
+            <TopBar
+              search={filters.search}
+              activeGroup={activeGroup}
+              hasActiveFilters={hasActiveFilters}
+              onSearchChange={(v) =>
+                setFilters((prev) => ({ ...prev, search: v }))
+              }
+              onPlayAll={() => handlePlayAll(false)}
+              onShuffleAll={() => handlePlayAll(true)}
+              onClearFilters={handleClearFilters}
+            />
+
+            {view === "about" ? (
+              <AboutView />
+            ) : (
+              <div className="px-2 py-3">
+                {sortedGroups.map((group, index) => (
+                  <GroupSection
+                    key={group.id}
+                    group={group}
+                    tracks={groupedTracks[index] ?? []}
+                    selectedTrack={selectedTrack}
+                    onPlayGroup={handlePlayGroup}
+                    onPlayTrack={handlePlayTrack}
+                    onQueueTrack={enqueue}
+                    onQueueGroup={(groupTracks) =>
+                      groupTracks.forEach(enqueue)
+                    }
+                    onSelectTrack={handleSelectTrack}
+                  />
+                ))}
+              </div>
+            )}
+          </main>
+
+          {/* Detail panel */}
+          <TrackDetailPanel
+            track={selectedTrack}
+            onClose={() => setSelectedTrack(null)}
+            onPlay={(track) => {
+              const context =
+                playableTracks.length > 0 ? playableTracks : [track];
+              handlePlayTrack(track, context);
+            }}
+            onQueue={enqueue}
           />
-        ))}
+        </div>
 
-        <section
-          id="about"
-          className="mx-auto w-full max-w-6xl px-6 py-16 text-white/70"
-        >
-          <h2 className="text-2xl font-semibold text-white">About</h2>
-          <p className="mt-4 max-w-2xl text-sm">
-            AC Music is a home for alternate versions of songs written across the
-            years. These are the recordings I always heard in my head, finally
-            given a new body.
-          </p>
-        </section>
-
-        <section
-          id="gear"
-          className="mx-auto w-full max-w-6xl px-6 py-16 text-white/70"
-        >
-          <h2 className="text-2xl font-semibold text-white">Gear &amp; Process</h2>
-          <p className="mt-4 max-w-2xl text-sm">
-            Song sketches begin on guitar or piano, then I rebuild the arrangements
-            with modern production tools. The final mixes lean into space, texture,
-            and cinematic detail.
-          </p>
-        </section>
-
-        <section
-          id="contact"
-          className="mx-auto w-full max-w-6xl px-6 py-16 text-white/70"
-        >
-          <h2 className="text-2xl font-semibold text-white">Contact</h2>
-          <p className="mt-4 max-w-2xl text-sm">
-            For licensing, collaborations, or questions, email
-            <span className="text-white"> hello@acmusic.com</span>.
-          </p>
-        </section>
-
-        <section
-          id="signup"
-          className="mx-auto w-full max-w-6xl px-6 py-16 text-white/70"
-        >
-          <h2 className="text-2xl font-semibold text-white">Signup</h2>
-          <p className="mt-4 max-w-2xl text-sm">
-            A soft invite: subscribe for new drops and rare originals.
-          </p>
-        </section>
-      </main>
-
-      <PlayerBar />
+        {/* Mini player */}
+        <MiniPlayerBar />
+      </div>
     </div>
   );
 }
