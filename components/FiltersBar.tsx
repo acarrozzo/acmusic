@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { Filter, Play, Shuffle, Users, X } from "lucide-react";
+import { Filter, Play, Shuffle, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import type { Group } from "@/data/groups";
@@ -39,8 +39,6 @@ export default function FiltersBar({
 }: FiltersBarProps) {
   const [tagsOpen, setTagsOpen] = useState(false);
   const tagsRef = useRef<HTMLDivElement | null>(null);
-  const [groupsOpen, setGroupsOpen] = useState(false);
-  const groupsRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     if (!tagsOpen) {
@@ -72,39 +70,66 @@ export default function FiltersBar({
     };
   }, [tagsOpen]);
 
-  useEffect(() => {
-    if (!groupsOpen) {
-      return;
-    }
-
-    const handlePointerDown = (event: MouseEvent | TouchEvent) => {
-      const target = event.target as Node | null;
-      if (!groupsRef.current || !target || groupsRef.current.contains(target)) {
-        return;
-      }
-      setGroupsOpen(false);
-    };
-
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
-        setGroupsOpen(false);
-      }
-    };
-
-    document.addEventListener("mousedown", handlePointerDown);
-    document.addEventListener("touchstart", handlePointerDown);
-    document.addEventListener("keydown", handleKeyDown);
-
-    return () => {
-      document.removeEventListener("mousedown", handlePointerDown);
-      document.removeEventListener("touchstart", handlePointerDown);
-      document.removeEventListener("keydown", handleKeyDown);
-    };
-  }, [groupsOpen]);
+  const scrollToGroup = (id: string) => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    const top = el.getBoundingClientRect().top + window.scrollY - 80;
+    window.scrollTo({ top, behavior: "smooth" });
+  };
 
   return (
     <section className="sticky top-0 z-20 border-b border-white/10 bg-black/80 backdrop-blur">
-      <div className="mx-auto flex w-full max-w-6xl flex-col gap-3 px-4 py-4 sm:gap-4 sm:px-6 sm:py-6">
+      <div className="mx-auto flex w-full max-w-6xl flex-col gap-3 px-4 py-4 sm:gap-4 sm:px-6 sm:py-5">
+
+        {/* Group navigation tabs */}
+        <div className="flex gap-2 overflow-x-auto pb-1" style={{ scrollbarWidth: "none" }}>
+          <button
+            type="button"
+            onClick={() => {
+              onGroupChange("all");
+              window.scrollTo({ top: 0, behavior: "smooth" });
+            }}
+            className={`flex-shrink-0 rounded-full border px-4 py-1.5 text-sm whitespace-nowrap transition ${
+              groupId === "all"
+                ? "border-white/60 bg-white/10 text-white"
+                : "border-white/20 text-white/50 hover:border-white/40 hover:text-white/80"
+            }`}
+          >
+            All{" "}
+            <span className="ml-1 text-xs opacity-60">{groupCounts.all ?? 0}</span>
+          </button>
+          {groups.map((group) => {
+            const isActive = groupId === group.id;
+            return (
+              <button
+                key={group.id}
+                type="button"
+                onClick={() => {
+                  onGroupChange(group.id);
+                  scrollToGroup(group.id);
+                }}
+                className={`flex-shrink-0 rounded-full border px-4 py-1.5 text-sm whitespace-nowrap transition ${
+                  isActive
+                    ? "text-white"
+                    : "border-white/20 text-white/50 hover:border-white/40 hover:text-white/80"
+                }`}
+                style={
+                  isActive
+                    ? {
+                        backgroundColor: group.brand?.accent ?? "rgba(255,255,255,0.1)",
+                        borderColor: group.brand?.accent ?? "rgba(255,255,255,0.2)",
+                      }
+                    : {}
+                }
+              >
+                {group.name}{" "}
+                <span className="ml-1 text-xs opacity-60">{groupCounts[group.id] ?? 0}</span>
+              </button>
+            );
+          })}
+        </div>
+
+        {/* Actions row */}
         <div className="flex flex-col gap-3 sm:gap-4">
           <div className="flex flex-wrap items-center gap-2 sm:gap-3">
             <p className="text-xs uppercase tracking-[0.25em] text-white/40">
@@ -128,81 +153,6 @@ export default function FiltersBar({
               <Shuffle className="mr-1.5 size-3.5" />
               Shuffle
             </Button>
-            <div className="relative" ref={groupsRef}>
-              <Button
-                variant="outline"
-                className="whitespace-nowrap"
-                aria-expanded={groupsOpen}
-                aria-haspopup="dialog"
-                onClick={() => setGroupsOpen((open) => !open)}
-              >
-                <Users className="mr-2 size-4" />
-                Show
-                <span className="ml-2 text-white/60">
-                  {groupId === "all"
-                    ? "All"
-                    : groups.find((g) => g.id === groupId)?.name}
-                </span>
-              </Button>
-              {groupsOpen ? (
-                <div className="absolute left-0 top-full z-30 mt-2 w-[min(360px,85vw)] rounded-lg border border-white/10 bg-black/95 p-4 shadow-xl">
-                  <div className="mb-3 flex items-center justify-between">
-                    <p className="text-xs uppercase tracking-[0.25em] text-white/40">
-                      Groups
-                    </p>
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      className="h-auto px-2 py-1 text-xs text-white/60 hover:text-white"
-                      onClick={() => setGroupsOpen(false)}
-                    >
-                      Close
-                    </Button>
-                  </div>
-                  <div className="flex flex-wrap gap-2">
-                    <Button
-                      variant={groupId === "all" ? "default" : "outline"}
-                      size="sm"
-                      onClick={() => {
-                        onGroupChange("all");
-                        setGroupsOpen(false);
-                      }}
-                    >
-                      All
-                      <span
-                        className={`ml-0 ${
-                          groupId === "all" ? "text-black/60" : "text-white/40"
-                        }`}
-                      >
-                        {groupCounts.all ?? 0}
-                      </span>
-                    </Button>
-                    {groups.map((group) => (
-                      <Button
-                        key={group.id}
-                        variant={groupId === group.id ? "default" : "outline"}
-                        size="sm"
-                        onClick={() => {
-                          onGroupChange(group.id);
-                          setGroupsOpen(false);
-                        }}
-                      >
-                        {group.name}
-                        <span
-                          className={`ml-0 ${
-                            groupId === group.id
-                              ? "text-black/60"
-                              : "text-white/40"
-                          }`}
-                        >
-                          {groupCounts[group.id] ?? 0}
-                        </span>
-                      </Button>
-                    ))}
-                  </div>
-                </div>
-              ) : null}
-            </div>
             <div className="relative" ref={tagsRef}>
               <Button
                 variant="outline"
@@ -242,14 +192,14 @@ export default function FiltersBar({
                           size="sm"
                           onClick={() => onTagToggle(tag)}
                         >
-                        {tag}
+                          {tag}
                           <span
                             className={`ml-0 ${
                               active ? "text-black/60" : "text-white/40"
                             }`}
                           >
-                          {tagCounts[tag] ?? 0}
-                        </span>
+                            {tagCounts[tag] ?? 0}
+                          </span>
                         </Button>
                       );
                     })}
@@ -279,6 +229,7 @@ export default function FiltersBar({
               {selectedTags.map((tag) => (
                 <button
                   key={tag}
+                  type="button"
                   onClick={() => onTagToggle(tag)}
                   className="inline-flex items-center gap-1.5 rounded-full border border-white/20 bg-white/10 px-3 py-1 text-xs text-white transition hover:border-white/40 hover:bg-white/20"
                 >

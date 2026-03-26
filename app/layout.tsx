@@ -39,7 +39,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark h-full">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} bg-black text-white antialiased h-full overflow-hidden`}
+        className={`${geistSans.variable} ${geistMono.variable} bg-zinc-900 text-white antialiased h-full overflow-hidden`}
       >
         {children}
         <PlayerAudio />

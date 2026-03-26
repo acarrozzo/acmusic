@@ -62,25 +62,27 @@ export default function TrackRow({
           : "hover:bg-white/5"
       }`}
     >
-      {/* Playing indicator */}
-      <div className="flex w-4 flex-shrink-0 items-center justify-center">
+      {/* Play / pause button — always visible, left of art */}
+      <Button
+        size="icon"
+        variant="ghost"
+        className="size-8 flex-shrink-0 text-white/50 hover:text-white"
+        onClick={handlePlayClick}
+      >
         {isPlayingTrack ? (
-          <span
-            className="size-2 animate-pulse rounded-full"
-            style={{ backgroundColor: groupAccent ?? "#10b981" }}
-          />
+          <Pause className="size-4" />
         ) : (
-          <span className="size-1.5 rounded-full bg-white/20" />
+          <Play className="size-4" />
         )}
-      </div>
+      </Button>
 
       {/* Artwork */}
-      <div className="relative h-10 w-10 flex-shrink-0 overflow-hidden rounded-md bg-white/10">
+      <div className="relative h-12 w-12 flex-shrink-0 overflow-hidden rounded-md bg-white/10">
         <Image
           src={track.artwork.src}
           alt={track.artwork.alt ?? track.title}
           fill
-          sizes="40px"
+          sizes="48px"
           className="object-cover"
         />
       </div>
@@ -119,18 +121,6 @@ export default function TrackRow({
 
       {/* Hover actions */}
       <div className="flex flex-shrink-0 items-center gap-1 opacity-0 transition-opacity group-hover:opacity-100">
-        <Button
-          size="icon"
-          variant="ghost"
-          className="size-7"
-          onClick={handlePlayClick}
-        >
-          {isPlayingTrack ? (
-            <Pause className="size-3.5" />
-          ) : (
-            <Play className="size-3.5" />
-          )}
-        </Button>
         <Button
           size="icon"
           variant="ghost"

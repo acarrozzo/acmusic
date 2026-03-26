@@ -62,7 +62,7 @@ export default function FullPlayer({ open, onClose }: FullPlayerProps) {
     <Sheet open={open} onOpenChange={(v) => { if (!v) onClose(); }}>
       <SheetContent
         side="bottom"
-        className="h-full border-white/10 bg-black p-0 [&>button]:hidden"
+        className="h-full border-white/10 bg-zinc-900 p-0 [&>button]:hidden"
       >
         <div className="mx-auto flex h-full max-w-md flex-col px-6 pb-safe">
           {/* Drag handle / close */}

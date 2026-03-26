@@ -1,5 +1,6 @@
 "use client";
 
+import { Search } from "lucide-react";
 import type { Group } from "@/data/groups";
 
 type SidebarProps = {
@@ -9,9 +10,11 @@ type SidebarProps = {
   tagCounts: Record<string, number>;
   groupId: string | "all";
   selectedTags: string[];
+  search: string;
   view: "music" | "about";
   onGroupChange: (id: string | "all") => void;
   onTagToggle: (tag: string) => void;
+  onSearchChange: (value: string) => void;
   onViewChange: (view: "music" | "about") => void;
 };
 
@@ -22,13 +25,15 @@ export default function Sidebar({
   tagCounts,
   groupId,
   selectedTags,
+  search,
   view,
   onGroupChange,
   onTagToggle,
+  onSearchChange,
   onViewChange,
 }: SidebarProps) {
   return (
-    <div className="flex h-full w-64 flex-col border-r border-white/10 bg-black">
+    <div className="flex h-full w-64 flex-col border-r border-white/[0.07] bg-zinc-950">
       {/* Branding */}
       <div className="flex-shrink-0 px-5 py-6">
         <p className="text-xs uppercase tracking-[0.25em] text-white/50">
@@ -37,6 +42,20 @@ export default function Sidebar({
         <p className="mt-1.5 max-w-[180px] text-xs leading-relaxed text-white/25">
           Thirty years of songs, finally heard.
         </p>
+      </div>
+
+      {/* Search */}
+      <div className="flex-shrink-0 px-3 pb-3">
+        <div className="flex items-center gap-2 rounded-lg bg-white/5 px-3 py-2">
+          <Search className="size-3.5 flex-shrink-0 text-white/30" />
+          <input
+            type="text"
+            value={search}
+            onChange={(e) => onSearchChange(e.target.value)}
+            placeholder="Search songs..."
+            className="flex-1 bg-transparent text-sm text-white placeholder:text-white/30 outline-none"
+          />
+        </div>
       </div>
 
       {/* Persona nav */}
@@ -136,7 +155,7 @@ export default function Sidebar({
       )}
 
       {/* Footer */}
-      <div className="flex-shrink-0 border-t border-white/10 px-3 py-4">
+      <div className="flex-shrink-0 border-t border-white/[0.07] px-3 py-4">
         <button
           type="button"
           onClick={() =>

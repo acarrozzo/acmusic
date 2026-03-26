@@ -50,7 +50,7 @@ export default function MiniPlayerBar() {
 
   if (!currentTrack) {
     return (
-      <div className="flex h-14 flex-shrink-0 items-center border-t border-white/10 bg-black/90 px-6 text-xs text-white/30">
+      <div className="flex h-14 flex-shrink-0 items-center border-t border-white/10 bg-zinc-900/95 px-6 text-xs text-white/30">
         Pick a song — any of them are a good start.
       </div>
     );
@@ -58,19 +58,19 @@ export default function MiniPlayerBar() {
 
   return (
     <>
-      <div className="flex h-14 flex-shrink-0 items-center gap-3 border-t border-white/10 bg-black/90 px-4 backdrop-blur">
+      <div className="flex h-14 flex-shrink-0 items-center gap-3 border-t border-white/10 bg-zinc-900/95 px-4 backdrop-blur">
         {/* Track info — click opens full player */}
         <button
           type="button"
           className="flex min-w-0 flex-1 items-center gap-3"
           onClick={() => setFullPlayerOpen(true)}
         >
-          <div className="relative h-9 w-9 flex-shrink-0 overflow-hidden rounded bg-white/10">
+          <div className="relative h-11 w-11 flex-shrink-0 overflow-hidden rounded bg-white/10">
             <Image
               src={currentTrack.artwork.src}
               alt={currentTrack.artwork.alt ?? currentTrack.title}
               fill
-              sizes="36px"
+              sizes="44px"
               className="object-cover"
             />
           </div>

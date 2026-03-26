@@ -27,8 +27,8 @@ export type Track = {
   order?: number;
 };
 
-const PH_IMG = "/songs/Placeholder/placeholder.png";
-const PH_MP3 = "/songs/Placeholder/placeholder.mp3";
+const PH_IMG = "/art/placeholder.png";
+const PH_MP3 = "/songs/placeholder.mp3";
 
 export const tracks: Track[] = [
   // ─── SAINT ANTHONY ───────────────────────────────────────────────────────────
@@ -40,12 +40,12 @@ export const tracks: Track[] = [
     description: "A freestyle odyssey — from winter streets to cosmic metaphors.",
     tags: ["hip-hop", "spoken-word", "freestyle"],
     artwork: {
-      src: "/songs/She Knows/sheknows.png",
+      src: "/art/sheknows.png",
       alt: "She Knows artwork",
     },
     audio: {
       sunoCoverUrl:
-        "/songs/She Knows/She Knows - 2-7 - TRIPHOPMETALCORE- (50,50) - D - new voice style test.mp3",
+        "/songs/She Knows - 2-7 - TRIPHOPMETALCORE- (50,50) - D - new voice style test.mp3",
     },
     lyrics: {
       text: `[Intro]
@@ -384,9 +384,9 @@ I'm home`,
     title: "Should I Press the Button",
     description: "A war song that starts in a crack alley and ends at countdown.",
     tags: ["alt-rock", "dark", "original"],
-    artwork: { src: PH_IMG },
+    artwork: { src: "/art/shouldipressthebutton.jpg" },
     audio: {
-      sunoCoverUrl: PH_MP3,
+      sunoCoverUrl: "/songs/ShouldIPressTheButton-3-22- METALCORE-(30,40,80) - v-B-wPersona-A.mp3",
       originalUrl: "/songs/acarrozzo-ShouldIPressTheButton.mp3",
     },
     originalRef: { year: 2000, description: "Original recording." },
@@ -806,14 +806,14 @@ Give me!`,
     description: "Dark humor drawn from the abyss — a Futurama riff with real weight.",
     tags: ["heavy", "dark", "original"],
     artwork: {
-      src: "/songs/Hold my Breath Forever/holdmybreathforever.png",
+      src: "/art/holdmybreathforever.png",
       alt: "Suicide Booth artwork",
     },
     audio: {
       sunoCoverUrl:
-        "/songs/Hold my Breath Forever/Hold my Breath Forever - 2-1- (50,50,25)-D-P-NEW lyric structure.mp3",
+        "/songs/Hold my Breath Forever - 2-1- (50,50,25)-D-P-NEW lyric structure.mp3",
       originalUrl:
-        "/songs/Hold my Breath Forever/original-cr-Hold my Breath Forever.mp3",
+        "/songs/original-cr-Hold my Breath Forever.mp3",
     },
     originalRef: { year: 2000, description: "Original recording." },
     lyrics: {

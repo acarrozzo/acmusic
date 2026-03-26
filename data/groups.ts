@@ -22,7 +22,7 @@ export const groups: Group[] = [
     story:
       "I wrote these songs at a time when I needed drama. Baroque heat, modern anxiety — the light was always too bright or missing completely. These tracks were born from that contrast, and AI finally gave them the orchestration I always heard in my head at 2am.",
     artwork: {
-      src: "/songs/groups/caravaggiosrevenge-1.png",
+      src: "/art/caravaggiosrevenge-1.png",
       alt: "Caravaggio's Revenge album art",
     },
     brand: { accent: "#d32f2f", markText: "CR" },

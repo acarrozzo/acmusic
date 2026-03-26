@@ -1,15 +1,15 @@
 "use client";
 
-import { useMemo, useState } from "react";
-import { Menu } from "lucide-react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent } from "@/components/ui/sheet";
 import Sidebar from "@/components/Sidebar";
 import TopBar from "@/components/TopBar";
 import GroupSection from "@/components/GroupSection";
 import TrackDetailPanel from "@/components/TrackDetailPanel";
-import MiniPlayerBar from "@/components/MiniPlayerBar";
+import BottomPlayer from "@/components/BottomPlayer";
 import AboutView from "@/components/AboutView";
+import SongView from "@/components/SongView";
 import { groups } from "@/data/groups";
 import { tracks, type Track } from "@/data/tracks";
 import { filterTracks, getAllTags, sortTracks } from "@/lib/filters";
@@ -35,6 +35,7 @@ export default function Home() {
   });
   const [selectedTrack, setSelectedTrack] = useState<Track | null>(null);
   const [view, setView] = useState<"music" | "about">("music");
+  const [contentMode, setContentMode] = useState<"list" | "song">("list");
   const [mobileDrawerOpen, setMobileDrawerOpen] = useState(false);
 
   const setQueue = usePlayerStore((s) => s.setQueue);
@@ -76,17 +77,19 @@ export default function Home() {
       ),
     [filteredTracks],
   );
-  const activeGroup = useMemo(
-    () =>
-      filters.groupId === "all"
-        ? null
-        : (sortedGroups.find((g) => g.id === filters.groupId) ?? null),
-    [filters.groupId],
-  );
   const hasActiveFilters =
     filters.search !== "" ||
     filters.groupId !== "all" ||
     filters.tags.length > 0;
+
+  // Load the full track list into the player on first mount
+  const initialized = useRef(false);
+  useEffect(() => {
+    if (!initialized.current && playableTracks.length > 0) {
+      initialized.current = true;
+      setQueue(playableTracks, 0);
+    }
+  }, [playableTracks, setQueue]);
 
   // Handlers
   const handlePlayTrack = (track: Track, context: Track[]) => {
@@ -133,7 +136,9 @@ export default function Home() {
     tagCounts,
     groupId: filters.groupId,
     selectedTags: filters.tags,
+    search: filters.search,
     view,
+    onSearchChange: (v: string) => setFilters((prev) => ({ ...prev, search: v })),
     onGroupChange: (id: string | "all") => {
       handleGroupChange(id);
       setMobileDrawerOpen(false);
@@ -146,94 +151,89 @@ export default function Home() {
   };
 
   return (
-    <div className="flex h-full">
-      {/* Desktop sidebar */}
-      <div className="hidden md:block">
-        <Sidebar {...sidebarProps} />
-      </div>
+    <div className="flex h-full flex-col">
+      {/* Global top bar — spans full width above everything */}
+      <TopBar
+        hasActiveFilters={hasActiveFilters}
+        contentMode={contentMode}
+        onPlayAll={() => handlePlayAll(false)}
+        onShuffleAll={() => handlePlayAll(true)}
+        onClearFilters={handleClearFilters}
+        onContentModeChange={(mode) => {
+          setContentMode(mode);
+          if (mode === "song" && view === "about") setView("music");
+        }}
+        onMobileMenuOpen={() => setMobileDrawerOpen(true)}
+      />
 
-      {/* Mobile drawer */}
-      <Sheet open={mobileDrawerOpen} onOpenChange={setMobileDrawerOpen}>
-        <SheetContent
-          side="left"
-          className="w-64 border-white/10 bg-black p-0 [&>button]:hidden"
-        >
+      {/* Body: sidebar + content */}
+      <div className="flex min-h-0 flex-1 overflow-hidden">
+        {/* Desktop sidebar */}
+        <div className="hidden md:block">
           <Sidebar {...sidebarProps} />
-        </SheetContent>
-      </Sheet>
+        </div>
 
-      {/* Right side: content + mini player */}
-      <div className="flex min-w-0 flex-1 flex-col overflow-hidden">
-        {/* Mobile header */}
-        <div className="flex flex-shrink-0 items-center gap-3 border-b border-white/10 px-4 py-3 md:hidden">
-          <Button
-            variant="ghost"
-            size="icon"
-            className="size-8 text-white/60"
-            onClick={() => setMobileDrawerOpen(true)}
+        {/* Mobile drawer */}
+        <Sheet open={mobileDrawerOpen} onOpenChange={setMobileDrawerOpen}>
+          <SheetContent
+            side="left"
+            className="w-64 border-white/[0.07] bg-zinc-950 p-0 [&>button]:hidden"
           >
-            <Menu className="size-5" />
-          </Button>
-          <p className="text-sm font-medium tracking-wide text-white/70">
-            AC MUSIC
-          </p>
-        </div>
+            <Sidebar {...sidebarProps} />
+          </SheetContent>
+        </Sheet>
 
-        {/* Content row */}
-        <div className="flex min-h-0 flex-1 overflow-hidden">
-          {/* Main tracklist */}
-          <main className="flex-1 overflow-y-auto">
-            <TopBar
-              search={filters.search}
-              activeGroup={activeGroup}
-              hasActiveFilters={hasActiveFilters}
-              onSearchChange={(v) =>
-                setFilters((prev) => ({ ...prev, search: v }))
-              }
-              onPlayAll={() => handlePlayAll(false)}
-              onShuffleAll={() => handlePlayAll(true)}
-              onClearFilters={handleClearFilters}
-            />
+        {/* Right side: content + mini player */}
+        <div className="flex min-w-0 flex-1 flex-col overflow-hidden">
+          {/* Content row */}
+          <div className="flex min-h-0 flex-1 overflow-hidden">
+            {/* Main content */}
+            <main className="flex-1 overflow-y-auto">
+              {view === "about" ? (
+                <AboutView />
+              ) : contentMode === "song" ? (
+                <SongView />
+              ) : (
+                <div className="px-2 py-3">
+                  {sortedGroups.map((group, index) => (
+                    <GroupSection
+                      key={group.id}
+                      group={group}
+                      tracks={groupedTracks[index] ?? []}
+                      selectedTrack={selectedTrack}
+                      onPlayGroup={handlePlayGroup}
+                      onPlayTrack={handlePlayTrack}
+                      onQueueTrack={enqueue}
+                      onQueueGroup={(groupTracks) =>
+                        groupTracks.forEach(enqueue)
+                      }
+                      onSelectTrack={handleSelectTrack}
+                    />
+                  ))}
+                </div>
+              )}
+            </main>
 
-            {view === "about" ? (
-              <AboutView />
-            ) : (
-              <div className="px-2 py-3">
-                {sortedGroups.map((group, index) => (
-                  <GroupSection
-                    key={group.id}
-                    group={group}
-                    tracks={groupedTracks[index] ?? []}
-                    selectedTrack={selectedTrack}
-                    onPlayGroup={handlePlayGroup}
-                    onPlayTrack={handlePlayTrack}
-                    onQueueTrack={enqueue}
-                    onQueueGroup={(groupTracks) =>
-                      groupTracks.forEach(enqueue)
-                    }
-                    onSelectTrack={handleSelectTrack}
-                  />
-                ))}
-              </div>
+            {/* Detail panel — hidden in song mode */}
+            {contentMode === "list" && (
+              <TrackDetailPanel
+                track={selectedTrack}
+                onClose={() => setSelectedTrack(null)}
+                onPlay={(track) => {
+                  const context =
+                    playableTracks.length > 0 ? playableTracks : [track];
+                  handlePlayTrack(track, context);
+                }}
+                onQueue={enqueue}
+              />
             )}
-          </main>
+          </div>
 
-          {/* Detail panel */}
-          <TrackDetailPanel
-            track={selectedTrack}
-            onClose={() => setSelectedTrack(null)}
-            onPlay={(track) => {
-              const context =
-                playableTracks.length > 0 ? playableTracks : [track];
-              handlePlayTrack(track, context);
-            }}
-            onQueue={enqueue}
-          />
         </div>
-
-        {/* Mini player */}
-        <MiniPlayerBar />
       </div>
+
+      {/* Bottom player — full width across sidebar + content */}
+      <BottomPlayer />
     </div>
   );
 }

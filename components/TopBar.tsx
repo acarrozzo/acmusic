@@ -1,55 +1,76 @@
 "use client";
 
-import { Play, RotateCcw, Shuffle } from "lucide-react";
+import { Disc3, LayoutList, Menu, Play, RotateCcw, Shuffle } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import type { Group } from "@/data/groups";
 
 type TopBarProps = {
-  search: string;
-  activeGroup: Group | null;
   hasActiveFilters: boolean;
-  onSearchChange: (value: string) => void;
+  contentMode: "list" | "song";
   onPlayAll: () => void;
   onShuffleAll: () => void;
   onClearFilters: () => void;
+  onContentModeChange: (mode: "list" | "song") => void;
+  onMobileMenuOpen: () => void;
 };
 
 export default function TopBar({
-  search,
-  activeGroup,
   hasActiveFilters,
-  onSearchChange,
+  contentMode,
   onPlayAll,
   onShuffleAll,
   onClearFilters,
+  onContentModeChange,
+  onMobileMenuOpen,
 }: TopBarProps) {
   return (
-    <div className="sticky top-0 z-10 border-b border-white/10 bg-black/90 backdrop-blur">
+    <div className="flex-shrink-0 border-b border-white/[0.07] bg-zinc-950">
       <div className="flex items-center gap-3 px-4 py-3">
-        {/* Active group indicator */}
-        {activeGroup ? (
-          <span
-            className="flex-shrink-0 text-sm font-medium"
-            style={{ color: activeGroup.brand?.accent ?? "rgba(255,255,255,0.8)" }}
-          >
-            {activeGroup.name}
-          </span>
-        ) : (
-          <span className="flex-shrink-0 text-sm font-medium text-white/50">
-            All Songs
-          </span>
-        )}
+        {/* Mobile menu button */}
+        <Button
+          variant="ghost"
+          size="icon"
+          className="size-8 text-white/60 hover:text-white md:hidden"
+          onClick={onMobileMenuOpen}
+        >
+          <Menu className="size-5" />
+        </Button>
+
+        {/* Branding */}
+        <p className="flex-shrink-0 text-sm font-semibold tracking-widest text-white/70 uppercase">
+          AC Music
+        </p>
 
         <div className="flex-1" />
 
-        {/* Search */}
-        <Input
-          value={search}
-          onChange={(e) => onSearchChange(e.target.value)}
-          placeholder="Search..."
-          className="h-8 w-40 bg-white/5 text-sm text-white placeholder:text-white/30"
-        />
+        {/* List / Song toggle — centered */}
+        <div className="flex items-center rounded-full border border-white/15 bg-white/5 p-0.5">
+          <button
+            type="button"
+            onClick={() => onContentModeChange("list")}
+            className={`flex items-center gap-1.5 rounded-full px-4 py-1.5 text-sm font-medium transition ${
+              contentMode === "list"
+                ? "bg-white text-zinc-900 shadow-sm"
+                : "text-white/50 hover:text-white"
+            }`}
+          >
+            <LayoutList className="size-3.5" />
+            List
+          </button>
+          <button
+            type="button"
+            onClick={() => onContentModeChange("song")}
+            className={`flex items-center gap-1.5 rounded-full px-4 py-1.5 text-sm font-medium transition ${
+              contentMode === "song"
+                ? "bg-white text-zinc-900 shadow-sm"
+                : "text-white/50 hover:text-white"
+            }`}
+          >
+            <Disc3 className="size-3.5" />
+            Song
+          </button>
+        </div>
+
+        <div className="flex-1" />
 
         {/* Play all */}
         <Button variant="ghost" size="sm" className="h-8 gap-1.5 text-white/60 hover:text-white" onClick={onPlayAll}>
@@ -63,7 +84,7 @@ export default function TopBar({
         </Button>
 
         {/* Reset filters */}
-        {hasActiveFilters && (
+        {hasActiveFilters && contentMode === "list" && (
           <Button
             variant="ghost"
             size="sm"

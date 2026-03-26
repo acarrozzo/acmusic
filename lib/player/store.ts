@@ -64,10 +64,10 @@ export const usePlayerStore = create<PlayerState>((set, get) => ({
     set({
       queue,
       currentIndex: startIndex,
-      isPlaying: true,
+      isPlaying: false,
       currentTime: 0,
     });
-    loadTrack(get().audioRef, queue[startIndex] ?? null, true);
+    loadTrack(get().audioRef, queue[startIndex] ?? null, false);
   },
   enqueue: (track) => {
     set((state) => ({

@@ -28,7 +28,7 @@ export default function QueueDrawer() {
           )}
         </Button>
       </SheetTrigger>
-      <SheetContent side="bottom" className="max-h-[70vh]">
+      <SheetContent side="bottom" className="max-h-[70vh] border-white/[0.07] bg-zinc-950">
         <SheetHeader>
           <SheetTitle>Queue</SheetTitle>
         </SheetHeader>
@@ -41,7 +41,7 @@ export default function QueueDrawer() {
             queue.map((track, index) => (
               <div
                 key={`${track.id}-${index}`}
-                className="flex flex-wrap items-center justify-between gap-2 rounded-lg border border-white/10 p-3"
+                className="flex flex-wrap items-center justify-between gap-2 rounded-lg border border-white/[0.07] p-3"
               >
                 <button
                   onClick={() => playIndex(index)}

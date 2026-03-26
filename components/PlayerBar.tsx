@@ -65,7 +65,7 @@ export default function PlayerBar() {
   if (!currentTrack) {
     return (
       <div className="fixed bottom-0 left-0 right-0 border-t border-white/10 bg-black/90 px-6 py-4 text-sm text-white/60">
-        Select a track to start listening.
+        Pick a song — any of them are a good start.
       </div>
     );
   }

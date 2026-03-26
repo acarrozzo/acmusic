@@ -19,11 +19,14 @@ export default function Header() {
               AC MUSIC
             </p>
             <h1 className="mt-3 text-3xl font-semibold text-white sm:text-4xl">
-              Old songs. New bodies.
+              Thirty years of songs, finally heard.
             </h1>
             <p className="mt-4 max-w-2xl text-base text-white/70">
-              What a time to be alive. Hear my songs the way I heard them in my
-              head when I wrote and recorded them years ago.
+              I&apos;ve been writing songs since the early &apos;90s. Most lived
+              only in my head, on four-track tapes, or in demos that never went
+              anywhere. Now, with AI as my co-producer, I&apos;m finally hearing
+              them the way I always imagined. This isn&apos;t for the industry
+              — it&apos;s for me, my family, and my children someday.
             </p>
           </div>
           <nav className="flex flex-wrap gap-4 text-sm text-white/70">

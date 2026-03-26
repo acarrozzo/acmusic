@@ -22,12 +22,12 @@ export default function TrackDetailPanel({
 }: TrackDetailPanelProps) {
   if (!track) {
     return (
-      <div className="hidden w-0 border-l border-white/10 md:block" />
+      <div className="hidden w-0 border-l border-white/[0.07] md:block" />
     );
   }
 
   return (
-    <div className="hidden w-[340px] flex-shrink-0 overflow-y-auto border-l border-white/10 md:flex md:flex-col">
+    <div className="hidden w-[340px] flex-shrink-0 overflow-y-auto border-l border-white/[0.07] md:flex md:flex-col">
       {/* Close */}
       <div className="flex flex-shrink-0 justify-end px-4 pt-4">
         <Button
@@ -76,7 +76,7 @@ export default function TrackDetailPanel({
 
       {/* Lyrics — first-class, no accordion */}
       {track.lyrics ? (
-        <div className="border-t border-white/10 px-5 pb-4 pt-4">
+        <div className="border-t border-white/[0.07] px-5 pb-4 pt-4">
           <p className="mb-3 text-[10px] uppercase tracking-[0.3em] text-white/30">
             Lyrics
           </p>
@@ -88,7 +88,7 @@ export default function TrackDetailPanel({
 
       {/* Compare */}
       {track.audio.originalUrl ? (
-        <div className="border-t border-white/10 px-5 pb-4 pt-4">
+        <div className="border-t border-white/[0.07] px-5 pb-4 pt-4">
           <p className="mb-3 text-[10px] uppercase tracking-[0.3em] text-white/30">
             Compare Versions
           </p>
@@ -98,7 +98,7 @@ export default function TrackDetailPanel({
 
       {/* Downloads */}
       {track.downloads?.allow ? (
-        <div className="border-t border-white/10 px-5 pb-6 pt-4">
+        <div className="border-t border-white/[0.07] px-5 pb-6 pt-4">
           <p className="mb-3 text-[10px] uppercase tracking-[0.3em] text-white/30">
             Downloads
           </p>

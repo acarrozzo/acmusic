@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useMemo, useState } from "react";
 import type { Track } from "@/data/tracks";
-import { ChevronDown, ChevronUp, ListPlus, Pause, Play } from "lucide-react";
+import { ChevronDown, ChevronUp, GitCompare, ListPlus, Music, Pause, Play } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
@@ -98,10 +98,21 @@ export default function TrackCard({ track, onPlay, onQueue }: TrackCardProps) {
                 Playing
               </Badge>
             ) : null}
-            {hasOriginal ? <Badge variant="outline">Has Original</Badge> : null}
+            {track.lyrics ? (
+              <Badge variant="outline" className="gap-1">
+                <Music className="size-3" />
+                Lyrics
+              </Badge>
+            ) : null}
+            {hasOriginal ? (
+              <Badge variant="outline" className="gap-1">
+                <GitCompare className="size-3" />
+                Compare versions
+              </Badge>
+            ) : null}
             {isNew ? <Badge variant="secondary">New</Badge> : null}
           </div>
-          <p className="mt-2 text-sm text-white/70">{track.description}</p>
+          <p className="mt-2 text-sm italic text-white/60">{track.description}</p>
           <div className="mt-3 flex flex-wrap gap-2">
             {track.tags.map((tag) => (
               <Badge key={tag} variant="outline">
@@ -128,11 +139,28 @@ export default function TrackCard({ track, onPlay, onQueue }: TrackCardProps) {
             <ListPlus className="mr-1.5 size-4" />
             Queue
           </Button>
-          <Button variant="ghost" size="icon" onClick={() => setExpanded((value) => !value)}>
+          <Button
+            variant="ghost"
+            size="sm"
+            className="gap-1.5 text-xs text-white/60"
+            onClick={() => setExpanded((value) => !value)}
+          >
             {expanded ? (
-              <ChevronUp className="size-4" />
+              <>
+                <ChevronUp className="size-3.5" />
+                Close
+              </>
             ) : (
-              <ChevronDown className="size-4" />
+              <>
+                <ChevronDown className="size-3.5" />
+                {track.lyrics && track.audio.originalUrl
+                  ? "Lyrics & Compare"
+                  : track.lyrics
+                  ? "Lyrics & Details"
+                  : track.audio.originalUrl
+                  ? "Compare Versions"
+                  : "Details"}
+              </>
             )}
           </Button>
         </div>
