@@ -30,6 +30,9 @@ export type Track = {
 const PH_IMG = "/art/placeholder.png";
 const PH_MP3 = "/songs/placeholder.mp3";
 
+export const isPlaceholderTrack = (track: Track) =>
+  track.artwork.src === PH_IMG || track.audio.sunoCoverUrl === PH_MP3;
+
 export const tracks: Track[] = [
   // ─── SAINT ANTHONY ───────────────────────────────────────────────────────────
 
@@ -196,7 +199,7 @@ I thank the lord, how can this be
 Look at me baby I'm dropping seeds
 Yeah I'm growing up this family tree`,
     },
-    order: 2,
+    order: 3,
   },
 
   {
@@ -205,8 +208,8 @@ Yeah I'm growing up this family tree`,
     title: "Complete (In Your Eyes)",
     description: "Finding the entire universe in someone's gaze.",
     tags: ["hip-hop", "love", "spoken-word"],
-    artwork: { src: PH_IMG },
-    audio: { sunoCoverUrl: PH_MP3 },
+    artwork: { src: "/art/complete-remix-art.jpg" },
+    audio: { sunoCoverUrl: "/songs/Complete - 2-6 - SYNTHPOP - (50,50) - D.mp3" },
     lyrics: {
       text: `[Intro]
 
@@ -257,7 +260,7 @@ I see the universe and it's found in your eyes
 
 [Outro]`,
     },
-    order: 3,
+    order: 2,
   },
 
   {

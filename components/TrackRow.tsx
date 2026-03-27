@@ -6,6 +6,7 @@ import { GitCompare, ListPlus, Music, Pause, Play } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import type { Track } from "@/data/tracks";
+import { isPlaceholderTrack } from "@/data/tracks";
 import { usePlayerStore } from "@/lib/player/store";
 
 type TrackRowProps = {
@@ -32,6 +33,7 @@ export default function TrackRow({
 
   const currentTrack = useMemo(() => queue[currentIndex] ?? null, [queue, currentIndex]);
   const isActiveTrack = currentTrack?.id === track.id;
+  const isPlaceholder = isPlaceholderTrack(track);
   const isPlayingTrack = isActiveTrack && isPlaying;
 
   const handlePlayClick = (e: React.MouseEvent) => {
@@ -93,12 +95,14 @@ export default function TrackRow({
           className={`truncate text-sm font-medium ${
             isActiveTrack
               ? "text-emerald-300"
+              : isPlaceholder
+              ? "text-white/30"
               : "text-white"
           }`}
         >
           {track.title}
         </p>
-        <p className="truncate text-xs italic text-white/40">
+        <p className={`truncate text-xs italic ${isPlaceholder ? "text-white/20" : "text-white/40"}`}>
           {track.description}
         </p>
       </div>

@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useMemo, useState } from "react";
 import type { Track } from "@/data/tracks";
+import { isPlaceholderTrack } from "@/data/tracks";
 import { ChevronDown, ChevronUp, GitCompare, ListPlus, Music, Pause, Play } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -45,6 +46,7 @@ export default function TrackCard({ track, onPlay, onQueue }: TrackCardProps) {
 
   const currentTrack = useMemo(() => queue[currentIndex] ?? null, [queue, currentIndex]);
   const isActiveTrack = currentTrack?.id === track.id;
+  const isPlaceholder = isPlaceholderTrack(track);
   const isPlayingTrack = isActiveTrack && isPlaying;
   const handlePlayButtonClick = () => {
     if (isActiveTrack) {
@@ -91,7 +93,7 @@ export default function TrackCard({ track, onPlay, onQueue }: TrackCardProps) {
         </div>
         <div className="flex-1">
           <div className="flex flex-wrap items-center gap-2">
-            <h3 className="text-lg font-semibold text-white">{track.title}</h3>
+            <h3 className={`text-lg font-semibold ${isPlaceholder ? "text-white/30" : "text-white"}`}>{track.title}</h3>
             {isPlayingTrack ? (
               <Badge variant="secondary" className="gap-1.5">
                 <span className="size-2 rounded-full bg-emerald-300 animate-pulse" />
@@ -112,7 +114,7 @@ export default function TrackCard({ track, onPlay, onQueue }: TrackCardProps) {
             ) : null}
             {isNew ? <Badge variant="secondary">New</Badge> : null}
           </div>
-          <p className="mt-2 text-sm italic text-white/60">{track.description}</p>
+          <p className={`mt-2 text-sm italic ${isPlaceholder ? "text-white/20" : "text-white/60"}`}>{track.description}</p>
           <div className="mt-3 flex flex-wrap gap-2">
             {track.tags.map((tag) => (
               <Badge key={tag} variant="outline">
