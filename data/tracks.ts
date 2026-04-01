@@ -40,7 +40,7 @@ export const tracks: Track[] = [
     id: "sa-she-knows",
     groupId: "saint-anthony",
     title: "She Knows",
-    description: "A freestyle odyssey — from winter streets to cosmic metaphors.",
+    description: "A freestyle odyssey, from winter streets to cosmic metaphors.",
     tags: ["hip-hop", "spoken-word", "freestyle"],
     artwork: {
       src: "/art/sheknows.png",
@@ -154,7 +154,7 @@ She knows… what's true`,
     id: "sa-blessed",
     groupId: "saint-anthony",
     title: "Blessed",
-    description: "Gratitude as groove — counting blessings over a hip-hop pulse.",
+    description: "Gratitude as groove, counting blessings over a hip-hop pulse.",
     tags: ["hip-hop", "devotional", "uplifting"],
     artwork: { src: PH_IMG },
     audio: { sunoCoverUrl: PH_MP3 },
@@ -203,9 +203,9 @@ Yeah I'm growing up this family tree`,
   },
 
   {
-    id: "sa-complete-in-your-eyes",
-    groupId: "saint-anthony",
-    title: "Complete (In Your Eyes)",
+    id: "sadam-complete-in-your-eyes",
+    groupId: "septimus-adams",
+    title: "Complete (In Your Eyes) - SynthPop Remix",
     description: "Finding the entire universe in someone's gaze.",
     tags: ["hip-hop", "love", "spoken-word"],
     artwork: { src: "/art/complete-remix-art.jpg" },
@@ -320,13 +320,17 @@ yes the mass of your sun - (I see the light)
   },
 
   {
-    id: "sa-home",
-    groupId: "saint-anthony",
+    id: "ac-home",
+    groupId: "acoustic-core",
     title: "Home",
-    description: "The simplest love song — being home is being with you.",
+    description: "The simplest love song, being home is being with you.",
     tags: ["love-song", "intimate", "devotional"],
-    artwork: { src: PH_IMG },
-    audio: { sunoCoverUrl: PH_MP3 },
+    artwork: { src: "/art/home-album-art-2.jpg" },
+    audio: {
+      sunoCoverUrl: "/songs/Home - 3-27 - acV1-CAMPFIREWHISPERCORE - (50,50,25) - d.mp3",
+      originalUrl: "/songs/original-Home-Sometimes IWarmup Session A - 11-16-12.mp3",
+    },
+    originalRef: { year: 2012, description: "Warmup session recording." },
     lyrics: {
       text: `[Verse 1]
 I'm home safe and sound
@@ -433,8 +437,8 @@ Seven Six Five Four Three Two One BOOM!`,
     title: "U",
     description: "One pronoun, delivered with maximum force.",
     tags: ["heavy", "dark", "original"],
-    artwork: { src: PH_IMG },
-    audio: { sunoCoverUrl: PH_MP3 },
+    artwork: { src: "/art/u-song-art.jpg" },
+    audio: { sunoCoverUrl: "/songs/U -3-27 - METALCORE- (30,30,40).mp3" },
     lyrics: {
       text: `[Intro]
 
@@ -467,14 +471,16 @@ Will not die with you
 YOU
 
 [Bridge]
-A shadow goes away
-When you shine a light on it
-I can see the truth
-When you shine a light on it
-might sound like an angry but I'm not cause I see
-You for the liar you are!
+A shadow goes away /
+When you shine a light on it /
+I can see the truth /
+When you shine a light on it /
+might sound like an angry but I'm not cause I see /
+You for the liar you are! /
 
 [Guitar Solo]
+
+[Instrumental]
 
 [Outro]
 It's You!
@@ -491,7 +497,7 @@ It's You!`,
     id: "cr-changes",
     groupId: "caravaggios-revenge",
     title: "Changes",
-    description: "Jet-lagged and disoriented — everything shifted while you were away.",
+    description: "Jet-lagged and disoriented. Everything shifted while you were away.",
     tags: ["alt-rock", "introspective", "original"],
     artwork: { src: PH_IMG },
     audio: {
@@ -652,7 +658,7 @@ Dream away
     id: "cr-feel-this",
     groupId: "caravaggios-revenge",
     title: "Feel This",
-    description: "A prayer for everyone the world failed — and a quiet rebellion.",
+    description: "A prayer for everyone the world failed, and a quiet rebellion.",
     tags: ["rock", "anthemic", "original"],
     artwork: { src: PH_IMG },
     audio: {
@@ -806,7 +812,7 @@ Give me!`,
     id: "cr-suicide-booth",
     groupId: "caravaggios-revenge",
     title: "Suicide Booth",
-    description: "Dark humor drawn from the abyss — a Futurama riff with real weight.",
+    description: "Dark humor drawn from the abyss, a Futurama riff with real weight.",
     tags: ["heavy", "dark", "original"],
     artwork: {
       src: "/art/holdmybreathforever.png",
@@ -877,72 +883,14 @@ I would
 I would`,
     },
     downloads: { allow: true, filename: "suicide-booth.mp3" },
-    order: 7,
-  },
-
-  {
-    id: "cr-suicide-booth-ii",
-    groupId: "caravaggios-revenge",
-    title: "Suicide Booth II",
-    description: "The AI-restructured version — same descent, different architecture.",
-    tags: ["heavy", "dark", "ai-produced"],
-    artwork: { src: PH_IMG },
-    audio: { sunoCoverUrl: PH_MP3 },
-    lyrics: {
-      text: `[Intro]
-
-[Verse]
-O dear Lord its that time again
-I have the equipment, but do I have the commitment?
-O dear Lord its that time again
-I have the equipment, but do I have the commitment?
-
-[Pre-Chorus]
-Don't try to bother me with your emotional irrelevance
-Don't try to bother me with your crystal suggestions
-It's alright to bother me if it will take yet a moment
-And it's alright if you want to see me tonight
-
-[Chorus]
-Hold my breath forever
-If it meant that I could
-Spend just another moment with you
-Hold my breath forever
-If it meant that I could
-Spend just another moment with you
-
-[Drop]
-
-[Verse]
-O dear Lord its that time again
-I have the equipment, but do I have the commitment?
-O dear Lord its that time again
-I have the equipment, but do I have the commitment?
-
-[Pre-Chorus]
-Don't try to bother me with your emotional irrelevance
-Don't try to bother me with your crystal suggestions
-It's alright to bother me if it will take yet a moment
-And it's alright if you want to see me tonight
-
-[Final Chorus]
-Hold my breath forever
-If it meant that I could
-Spend just another moment with you
-Hold my breath forever
-If it meant that I could
-Spend just another moment with you
-
-[Outro]`,
-    },
-    order: 8,
+    order: 0,
   },
 
   {
     id: "cr-paydenpayne",
     groupId: "caravaggios-revenge",
     title: "Paydenpayne",
-    description: "Frozen oil and dead batteries — metaphors for a relationship going cold.",
+    description: "Frozen oil and dead batteries, metaphors for a relationship going cold.",
     tags: ["alt-rock", "melancholy", "original"],
     artwork: { src: PH_IMG },
     audio: { sunoCoverUrl: PH_MP3 },
@@ -1017,8 +965,8 @@ You have my love so I've paydenpayne
   // ─── STRANGE SOUNDS FOR STRANGE TIMES ────────────────────────────────────────
 
   {
-    id: "ss-soda-pop",
-    groupId: "strange-sounds-for-strange-times",
+    id: "sa-soda-pop",
+    groupId: "saint-anthony",
     title: "Soda Pop!",
     description: "A satirical ode to America's forbidden sweetness.",
     tags: ["comedy", "rock", "satirical"],
@@ -1097,8 +1045,8 @@ and drink a lot of that soda pop`,
   },
 
   {
-    id: "ss-im-a-fire-truck",
-    groupId: "strange-sounds-for-strange-times",
+    id: "misc-im-a-fire-truck",
+    groupId: "misc",
     title: "I'm a Fire Truck",
     description: "The most elaborate pickup line ever committed to tape.",
     tags: ["comedy", "funk", "playful"],
@@ -1198,10 +1146,10 @@ Stop, drop, and roll around, I can't get enough
   },
 
   {
-    id: "ss-i-plant-a-tree",
-    groupId: "strange-sounds-for-strange-times",
+    id: "sadam-i-plant-a-tree",
+    groupId: "septimus-adams",
     title: "I Plant a Tree",
-    description: "Minimal, patient, grateful — growing in real time.",
+    description: "Minimal, patient, grateful. Growing in real time.",
     tags: ["folk", "spiritual", "minimal"],
     artwork: { src: PH_IMG },
     audio: { sunoCoverUrl: PH_MP3 },
@@ -1273,8 +1221,8 @@ Slow`,
   },
 
   {
-    id: "ss-weird",
-    groupId: "strange-sounds-for-strange-times",
+    id: "sa-weird",
+    groupId: "saint-anthony",
     title: "Weird",
     description: "A permission slip to be strange, delivered at maximum speed.",
     tags: ["hip-hop", "quirky", "comedy"],
@@ -1333,10 +1281,10 @@ At your party…
   },
 
   {
-    id: "ss-only-photographs",
-    groupId: "strange-sounds-for-strange-times",
+    id: "cr-only-photographs",
+    groupId: "caravaggios-revenge",
     title: "Only Photographs",
-    description: "Vampire logic and city lights — the night as permanent residence.",
+    description: "Vampire logic and city lights, the night as permanent residence.",
     tags: ["dark", "cinematic", "moody"],
     artwork: { src: PH_IMG },
     audio: { sunoCoverUrl: PH_MP3 },
@@ -1406,8 +1354,8 @@ I only, (only) only have, photographs
   },
 
   {
-    id: "ss-the-healthiest-dessert",
-    groupId: "strange-sounds-for-strange-times",
+    id: "sa-the-healthiest-dessert",
+    groupId: "saint-anthony",
     title: "The Healthiest Dessert",
     description: "Courtship as calorie-free indulgence.",
     tags: ["pop-rap", "playful", "romantic"],
@@ -1504,8 +1452,8 @@ I'm overflowing yes I just can't get enough of your love
   },
 
   {
-    id: "ss-fine-specimen",
-    groupId: "strange-sounds-for-strange-times",
+    id: "fh-fine-specimen",
+    groupId: "first-human",
     title: "Fine Specimen (10,000 BC)",
     description: "Modern man imagines himself in prehistoric peak condition.",
     tags: ["hip-hop", "comedy", "storytelling"],
@@ -1621,10 +1569,10 @@ So please be mine, you're such a fine - specimen`,
   },
 
   {
-    id: "ss-numbers",
-    groupId: "strange-sounds-for-strange-times",
+    id: "misc-numbers",
+    groupId: "misc",
     title: "Numbers",
-    description: "Love geometry — the third wheel problem, from the drummer's corner.",
+    description: "Love geometry, the third wheel problem, from the drummer's corner.",
     tags: ["alt-rock", "storytelling", "original"],
     artwork: { src: PH_IMG },
     audio: { sunoCoverUrl: PH_MP3 },
@@ -1710,8 +1658,8 @@ One, two, three is the perfect number`,
     title: "Abby Dabby Do (Magic On the Move)",
     description: "A superhero theme for a little girl with magic in her pocket.",
     tags: ["kids", "pop", "uplifting"],
-    artwork: { src: PH_IMG },
-    audio: { sunoCoverUrl: PH_MP3 },
+    artwork: { src: "/art/abbydabbydo-song-art.jpg" },
+    audio: { sunoCoverUrl: "/songs/AbbyDabbyDo -2-4-26.mp3" },
     lyrics: {
       text: `[Intro]
 Abby… Abby Dabby… Abby Dabby Do!
@@ -1795,7 +1743,7 @@ I love you…`,
     id: "kids-alex-the-three-keys",
     groupId: "kids",
     title: "The Three Keys (Alex's Quest)",
-    description: "Treasure maps, leopards, and moon missions — a boy's epic quest.",
+    description: "Treasure maps, leopards, and moon missions. A boy's epic quest.",
     tags: ["kids", "adventure", "uplifting"],
     artwork: { src: PH_IMG },
     audio: { sunoCoverUrl: PH_MP3 },
@@ -1984,7 +1932,7 @@ Captain of the moon (hey!)`,
     id: "kids-the-carrozzo-song",
     groupId: "kids",
     title: "The Carrozzo Song",
-    description: "A family roll call — names are the first kind of love.",
+    description: "A family roll call, names are the first kind of love.",
     tags: ["kids", "family", "personal"],
     artwork: { src: PH_IMG },
     audio: { sunoCoverUrl: PH_MP3 },
@@ -2038,7 +1986,7 @@ Robert Joseph Carrozzo`,
     id: "kids-alex-bo-balex",
     groupId: "kids",
     title: "Alex Bo Balex",
-    description: "Coming soon — Alex goes on a grand, silly, animated adventure.",
+    description: "Coming soon. Alex goes on a grand, silly, animated adventure.",
     tags: ["kids", "adventure", "placeholder"],
     artwork: { src: PH_IMG },
     audio: { sunoCoverUrl: PH_MP3 },

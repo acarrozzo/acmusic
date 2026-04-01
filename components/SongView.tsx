@@ -23,7 +23,7 @@ export default function SongView() {
     return (
       <div className="flex h-full min-h-[60vh] items-center justify-center">
         <p className="text-sm italic text-white/30">
-          Pick a song from the list — then come back here.
+          Pick a song from the list, then come back here.
         </p>
       </div>
     );
@@ -34,7 +34,7 @@ export default function SongView() {
       <div className="mx-auto flex w-full max-w-5xl flex-col gap-10 lg:flex-row lg:items-start">
 
         {/* Left column: art + meta + compare */}
-        <div className="w-full flex-shrink-0 lg:w-80 xl:w-96">
+        <div className="w-full flex-shrink-0 lg:sticky lg:top-8 lg:w-80 xl:w-96">
           {/* Album art */}
           <div className="relative aspect-square w-full overflow-hidden rounded-2xl bg-white/10 shadow-2xl">
             <Image

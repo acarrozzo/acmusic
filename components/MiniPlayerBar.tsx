@@ -51,7 +51,7 @@ export default function MiniPlayerBar() {
   if (!currentTrack) {
     return (
       <div className="flex h-14 flex-shrink-0 items-center border-t border-white/10 bg-zinc-900/95 px-6 text-xs text-white/30">
-        Pick a song — any of them are a good start.
+        Pick a song, any of them are a good start.
       </div>
     );
   }

@@ -14,20 +14,20 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "AC Music — Anthony Carrozzo",
+  title: "AC Music | Anthony Carrozzo",
   description:
-    "Thirty years of songwriting, finally heard. AC Music is a personal archive of songs — four artistic personas, AI-assisted production, and original demos kept for comparison. Not for the industry. For the family.",
+    "Thirty years of songwriting, finally heard. AC Music is a personal archive of songs, four artistic personas, AI-assisted production, and original demos kept for comparison. Not for the industry. For the family.",
   openGraph: {
-    title: "AC Music — Anthony Carrozzo",
+    title: "AC Music | Anthony Carrozzo",
     description:
-      "Thirty years of songwriting, finally heard. AC Music is a personal archive of songs — four artistic personas, AI-assisted production, and original demos kept for comparison. Not for the industry. For the family.",
+      "Thirty years of songwriting, finally heard. AC Music is a personal archive of songs, four artistic personas, AI-assisted production, and original demos kept for comparison. Not for the industry. For the family.",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "AC Music — Anthony Carrozzo",
+    title: "AC Music | Anthony Carrozzo",
     description:
-      "Thirty years of songwriting, finally heard. AC Music is a personal archive of songs — four artistic personas, AI-assisted production, and original demos kept for comparison. Not for the industry. For the family.",
+      "Thirty years of songwriting, finally heard. AC Music is a personal archive of songs, four artistic personas, AI-assisted production, and original demos kept for comparison. Not for the industry. For the family.",
   },
 };
 

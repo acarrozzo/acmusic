@@ -10,6 +10,7 @@ import TrackDetailPanel from "@/components/TrackDetailPanel";
 import BottomPlayer from "@/components/BottomPlayer";
 import AboutView from "@/components/AboutView";
 import SongView from "@/components/SongView";
+import FeaturedSection from "@/components/FeaturedSection";
 import { groups } from "@/data/groups";
 import { tracks, type Track } from "@/data/tracks";
 import { filterTracks, getAllTags, sortTracks } from "@/lib/filters";
@@ -39,6 +40,7 @@ export default function Home() {
   const [mobileDrawerOpen, setMobileDrawerOpen] = useState(false);
 
   const setQueue = usePlayerStore((s) => s.setQueue);
+  const play = usePlayerStore((s) => s.play);
   const enqueue = usePlayerStore((s) => s.enqueue);
 
   // Derived data
@@ -195,6 +197,14 @@ export default function Home() {
                 <SongView />
               ) : (
                 <div className="px-2 py-3">
+                  {!hasActiveFilters && (
+                    <FeaturedSection
+                      onPlay={(track) => {
+                        handlePlayTrack(track, playableTracks);
+                        play();
+                      }}
+                    />
+                  )}
                   {sortedGroups.map((group, index) => (
                     <GroupSection
                       key={group.id}

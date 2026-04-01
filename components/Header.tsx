@@ -25,8 +25,8 @@ export default function Header() {
               I&apos;ve been writing songs since the early &apos;90s. Most lived
               only in my head, on four-track tapes, or in demos that never went
               anywhere. Now, with AI as my co-producer, I&apos;m finally hearing
-              them the way I always imagined. This isn&apos;t for the industry
-              — it&apos;s for me, my family, and my children someday.
+              them the way I always imagined. Not for the industry. For me,
+              my family, and my children someday.
             </p>
           </div>
           <nav className="flex flex-wrap gap-4 text-sm text-white/70">

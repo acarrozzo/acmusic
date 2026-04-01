@@ -71,7 +71,7 @@ export default function BottomPlayer() {
   if (!currentTrack) {
     return (
       <div className="flex h-16 flex-shrink-0 items-center border-t border-white/[0.07] bg-zinc-950 px-6 text-xs text-white/30">
-        Pick a song — any of them are a good start.
+        Pick a song, any of them are a good start.
       </div>
     );
   }

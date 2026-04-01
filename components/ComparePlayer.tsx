@@ -5,6 +5,7 @@ import { Pause, Play } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 import type { Track } from "@/data/tracks";
+import { usePlayerStore } from "@/lib/player/store";
 
 const formatTime = (time: number) => {
   if (!Number.isFinite(time)) return "0:00";
@@ -24,6 +25,8 @@ function MiniPlayer({ src, label, sublabel }: MiniPlayerProps) {
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
+  const pauseMainPlayer = usePlayerStore((s) => s.pause);
+  const mainIsPlaying = usePlayerStore((s) => s.isPlaying);
 
   useEffect(() => {
     const audio = audioRef.current;
@@ -50,12 +53,20 @@ function MiniPlayer({ src, label, sublabel }: MiniPlayerProps) {
     };
   }, []);
 
+  // Pause this player when the main player starts playing
+  useEffect(() => {
+    if (mainIsPlaying) {
+      audioRef.current?.pause();
+    }
+  }, [mainIsPlaying]);
+
   const handlePlayPause = () => {
     const audio = audioRef.current;
     if (!audio) return;
     if (isPlaying) {
       audio.pause();
     } else {
+      pauseMainPlayer();
       audio.play();
     }
   };
