@@ -205,7 +205,7 @@ Yeah I'm growing up this family tree`,
   {
     id: "sadam-complete-in-your-eyes",
     groupId: "septimus-adams",
-    title: "Complete (In Your Eyes) - SynthPop Remix",
+    title: "Complete (synthpop dance remix)",
     description: "Finding the entire universe in someone's gaze.",
     tags: ["hip-hop", "love", "spoken-word"],
     artwork: { src: "/art/complete-remix-art.jpg" },
@@ -490,7 +490,7 @@ It's You!
 
 It's You!`,
     },
-    order: 2,
+    order: 3,
   },
 
   {
@@ -573,18 +573,18 @@ At least I have some new friends
 Who don't know me
 Who really knows me`,
     },
-    order: 3,
+    order: 4,
   },
 
   {
     id: "cr-child-alive",
     groupId: "caravaggios-revenge",
     title: "Child Alive",
-    description: "When love isn't enough to change what happened.",
+    description: "love isn't enough",
     tags: ["dark", "cinematic", "original"],
-    artwork: { src: PH_IMG },
+    artwork: { src: "/art/child-alive-song-art.jpg", alt: "Child Alive song art" },
     audio: {
-      sunoCoverUrl: "/songs/cr-Child Alive.mp3",
+      sunoCoverUrl: "/songs/Child Alive-4-12-EMOPOSTHARDCORENU-(50,40,70) - v-B.mp3",
       originalUrl: "/songs/acarrozzo-ChildAlive.mp3",
     },
     originalRef: { year: 2000, description: "Original recording." },
@@ -609,49 +609,49 @@ You must expose your heart so your God can sew it up
 
 [Chorus]
 And love can't keep your child alive
-So forget everything you knew of life
-Changes comes and our loves all die
+So drop everything you knew of life
+Changes come and our loves all die
 So dream away 'cause it's all you got
 Dream away 'cause it's all you got
 Dream away
 Dream away!
 
-[Instrumental]
+[instrumental]
 
 [Bridge]
 (It's coming) (It's coming) (It's coming) (It's coming)
 
-Dark, dark, spirit of the night
-Lord of the flies
-Don't be surprised
-Of the lies
+Dark, dark, spirit of the night /
+Lord of the flies /
+Don't be surprised /
+Of the lies /
 
-Don't know, don't care - madness despair
-If there's something you should do
-I suggest you do it now
+Don't know, don't care / madness despair /
+If there's something you should do /
+I suggest you do it now /
 
-[Pre-Chorus]
-So slow down, get out of this place
-With your fists down low, and that look upon your face
-Something for nothing is all that we have ever known
-Destroy something, it's not the way to get shown
+[Pre-chorus: drop, massive build-up]
+So slow down, get out of this place /
+With your fists down low, and that look upon your face /
+Something for nothing is all that we have ever known /
+Break something, it's not the way to get shown /
 
 [Chorus]
-And love can't keep your child alive
-So forget everything you knew of life
-Changes comes and our loves all die
+That love can't keep your child alive
+So drop everything you knew of life
+Changes come and our loves all die
 So dream away
 And love can't keep your child alive
-So forget everything you knew of life
-Changes comes and our loves all die
+So drop everything you knew of life
+Changes come and our loves all die
 So dream away 'cause it's all you got
 Dream away 'cause it's all you got
 Dream away
-Dream away
+Dream away!
 
-[Outro]`,
+[outro]`,
     },
-    order: 4,
+    order: 2,
   },
 
   {
@@ -970,13 +970,12 @@ You have my love so I've paydenpayne
     title: "Soda Pop!",
     description: "A satirical ode to America's forbidden sweetness.",
     tags: ["comedy", "rock", "satirical"],
-    artwork: { src: PH_IMG },
-    audio: { sunoCoverUrl: PH_MP3 },
+    artwork: { src: "/art/soda-pop-song-art.jpg", alt: "Soda Pop song art" },
+    audio: { sunoCoverUrl: "/songs/Soda Pop - 3-31-110bpm-CORE-R&BHARDROCK-(50,50,25)d-v-B.mp3" },
     lyrics: {
-      text: `[Intro]
-Soda Pop!
+      text: `[intro music]
 
-[Chorus]
+[chorus: heavy]
 Soda Pop!
 i need to drink it up
 I love that Cherry coke
@@ -987,59 +986,61 @@ yes I love it a lot
 Let's go break the law
 and drink a lot of soda pop
 
-[Verse]
-Welcome to America!
-Yeah we got problems
-We got bullets in the schools
-and obese kids they gotta dodge em
+[Verse 1: deconstructed, half-time groove, aggressive, spoken melodic]
+Welcome to America! /
+Yeah we got problems /
+We got bullets in the schools /
+and obese kids they gotta dodge em /
 
-see they just sit around
-and play violent games all day
-We gotta stand up and fight for soda rights
-before the governor takes it them all away
+see they just sit around /
+and play violent games all day /
+We gotta stand up and fight for soda rights /
+before the governor takes them all away /
 
-So I say governor!
-gets your mitts off my drink
-It's out right to gulp big
-we don't care what you think
+[heavy]
+So I say governor! /
+gets your mitts off my drink /
+It's out right to gulp big /
+we don't care what you think /
 
-we speak for freedom
-yes we'll never stop
-we love this country America
-we love our, our our our - Soda Pop!
+[increasing intensity]
+we speak for freedom /
+yes we'll never stop /
+we love this country America /
+we love our, [echo] our our our - Soda Pop! /
 
-[Chorus]
-Soda Pop!
-We need to drink it up
-We love that Cherry coke
-Doctor Pepper Seven Up
+[chorus - breakdown]
+Soda Pop! /
+We need to drink it up /
+We love that Cherry coke /
+Doctor Pepper Seven Up /
 
-We love the sugar
-yes we love it a lot
-Let's go break the law
-and drink a lot of that soda pop
+We love the sugar /
+yes we love it a lot /
+Let's go break the law /
+and drink a lot of that soda pop /
 
-[Instrumental Interlude]
+[ musical interlude ]
 
-[Bridge]
-whether you like it or not
-it's still America - it's still America - it's still America
+[bridge - heavy, rebellious energy]
+whether you like it or not /
+it's still America / it's still America / it's still America /
 
-whether you like it or not
-it's still America
-We love America
-we love our
+whether you like it or not /
+it's still America /
+We love America /
+we love our /
 
-[Chorus]
-Soda Pop!
-We need to drink it up
-We love that Cherry coke
-Doctor Pepper Seven Up
+[chorus]
+Soda Pop! /
+We need to drink it up /
+We love that Cherry coke /
+Doctor Pepper Seven Up /
 
-We love the sugar
-yes we love it a lot
-Let's go break the law
-and drink a lot of that soda pop`,
+We love the sugar /
+yes we love it a lot /
+Let's go break the law /
+and drink a lot of that soda pop /`,
     },
     order: 1,
   },
@@ -1216,6 +1217,82 @@ It grows - slow
 
 [Outro]
 Slow`,
+    },
+    order: 4,
+  },
+
+  {
+    id: "sadam-child-alive-ghost-remix",
+    groupId: "septimus-adams",
+    title: "Child Alive (ambient ghost remix)",
+    description: "love isn't enough",
+    tags: ["trip-hop", "dark", "ambient"],
+    artwork: { src: "/art/child-alive-remix-song-art.jpg", alt: "Child Alive Ghost Remix song art" },
+    audio: {
+      sunoCoverUrl: "/songs/CHILD ALIVE - 2-3 - TRIPHOPghostlyambient - (50,50,25)-Def-Persona.mp3",
+    },
+    lyrics: {
+      text: `[Verse 1]
+Cancel all your plans, there will be no party
+You should have stayed close, you should have stayed away
+There's nothing you can do, and it's hard for you to see
+You scream it's not fair, this shouldn't happen to me
+
+[Chorus]
+Love can't keep your child alive
+So drop everything you knew of life
+It's not fair we don't know why
+So dream away
+
+[Verse 2]
+Lightning strikes twice and another baby dies
+you're driving alone and his promises were lies
+There's nothing you can do to earn some better luck
+You must expose your heart so your God can sew it up
+
+[Chorus]
+And love can't keep your child alive
+So drop everything you knew of life
+Changes come and our loves all die
+So dream away 'cause it's all you got
+Dream away 'cause it's all you got
+Dream away
+Dream away!
+
+[instrumental]
+
+[Bridge]
+(It's coming) (It's coming) (It's coming) (It's coming)
+
+Dark, dark, spirit of the night /
+Lord of the flies /
+Don't be surprised /
+Of the lies /
+
+Don't know, don't care / madness despair /
+If there's something you should do /
+I suggest you do it now /
+
+[Pre-chorus: drop, massive build-up]
+So slow down, get out of this place /
+With your fists down low, and that look upon your face /
+Something for nothing is all that we have ever known /
+Break something, it's not the way to get shown /
+
+[Chorus]
+That love can't keep your child alive
+So drop everything you knew of life
+Changes come and our loves all die
+So dream away
+And love can't keep your child alive
+So drop everything you knew of life
+Changes come and our loves all die
+So dream away 'cause it's all you got
+Dream away 'cause it's all you got
+Dream away
+Dream away!
+
+[outro]`,
     },
     order: 3,
   },

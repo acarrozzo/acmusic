@@ -65,15 +65,15 @@ function FeaturedCard({ track, quote, onPlay }: FeaturedCardProps) {
         />
         <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-black/20 to-zinc-900" />
 
-        <div className="absolute bottom-0 left-0 right-0 px-4 pb-4">
-          <p className="line-clamp-2 text-[11px] italic leading-relaxed text-white/70">
+        <div className="absolute bottom-0 left-0 right-0 px-3 pb-3">
+          <p className="line-clamp-2 text-[10px] italic leading-relaxed text-white/70">
             &ldquo;{quote}&rdquo;
           </p>
         </div>
       </div>
 
       {/* Card content: play button left, all text right */}
-      <div className="flex items-start gap-3 px-4 pb-4 pt-3">
+      <div className="flex items-start gap-2 px-3 pb-3 pt-2 sm:gap-3 sm:px-4 sm:pb-4 sm:pt-3">
         <Button
           size="icon"
           className="mt-0.5 size-8 shrink-0 rounded-full bg-white text-zinc-900 hover:bg-white/90"
@@ -94,7 +94,7 @@ function FeaturedCard({ track, quote, onPlay }: FeaturedCardProps) {
           )}
           <h3 className="truncate text-sm font-semibold text-white">{track.title}</h3>
           <p className="mt-1 line-clamp-2 text-xs italic text-white/45">{track.description}</p>
-          <div className="mt-2 flex flex-wrap gap-1.5">
+          <div className="mt-2 hidden flex-wrap gap-1.5 sm:flex">
             {track.tags.map((tag) => (
               <Badge key={tag} variant="outline" className="py-0 text-[10px]">
                 {tag}
@@ -120,7 +120,7 @@ export default function FeaturedSection({ onPlay }: FeaturedSectionProps) {
   if (featuredTracks.length === 0) return null;
 
   return (
-    <div className="mb-6 grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
+    <div className="mb-6 grid grid-cols-2 gap-3 sm:gap-4 xl:grid-cols-4">
       {featuredTracks.map(({ track, quote }) => (
         <FeaturedCard
           key={track.id}
