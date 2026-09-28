@@ -1,31 +1,32 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { useMemo } from "react";
-import { GitCompare, ListPlus, Music, Pause, Play } from "lucide-react";
-import { Badge } from "@/components/ui/badge";
+import { ChevronRight, GitCompare, ListPlus, Music, Pause, Play } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import type { Track } from "@/data/tracks";
 import { isPlaceholderTrack } from "@/data/tracks";
+import { songHref } from "@/lib/catalog";
 import { usePlayerStore } from "@/lib/player/store";
+import { useUi } from "@/lib/ui";
 
 type TrackRowProps = {
   track: Track;
-  groupAccent?: string;
-  isSelected: boolean;
   onPlay: (track: Track) => void;
   onQueue: (track: Track) => void;
-  onSelect: (track: Track) => void;
 };
 
-export default function TrackRow({
-  track,
-  groupAccent,
-  isSelected,
-  onPlay,
-  onQueue,
-  onSelect,
-}: TrackRowProps) {
+/**
+ * A catalog row. Clicking the row opens the song in the side panel; the play
+ * button plays. The Compare badge deep-links to the full page, since the
+ * panel doesn't host the version players.
+ */
+export default function TrackRow({ track, onPlay, onQueue }: TrackRowProps) {
+  const openTrack = useUi((s) => s.openTrack);
+  const panelOpen = useUi((s) => s.panelOpen);
+  const panelMode = useUi((s) => s.panelMode);
+  const panelTrackId = useUi((s) => s.panelTrackId);
   const queue = usePlayerStore((s) => s.queue);
   const currentIndex = usePlayerStore((s) => s.currentIndex);
   const isPlaying = usePlayerStore((s) => s.isPlaying);
@@ -35,14 +36,13 @@ export default function TrackRow({
   const isActiveTrack = currentTrack?.id === track.id;
   const isPlaceholder = isPlaceholderTrack(track);
   const isPlayingTrack = isActiveTrack && isPlaying;
+  const isSelected =
+    panelOpen && panelMode === "selected" && panelTrackId === track.id;
 
   const handlePlayClick = (e: React.MouseEvent) => {
     e.stopPropagation();
-    if (isActiveTrack) {
-      togglePlay();
-    } else {
-      onPlay(track);
-    }
+    if (isActiveTrack) togglePlay();
+    else onPlay(track);
   };
 
   const handleQueueClick = (e: React.MouseEvent) => {
@@ -50,12 +50,21 @@ export default function TrackRow({
     onQueue(track);
   };
 
+  const open = () => openTrack(track.id);
+
   return (
     <div
       role="button"
       tabIndex={0}
-      onClick={() => onSelect(track)}
-      onKeyDown={(e) => e.key === "Enter" && onSelect(track)}
+      onClick={open}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          open();
+        }
+      }}
+      aria-label={`Show details for ${track.title}`}
+      aria-pressed={isSelected}
       className={`group flex cursor-pointer items-center gap-3 rounded-lg px-3 py-2.5 transition outline-none focus-visible:ring-1 focus-visible:ring-white/30 ${
         isActiveTrack
           ? "bg-white/10"
@@ -64,21 +73,16 @@ export default function TrackRow({
           : "hover:bg-white/5"
       }`}
     >
-      {/* Play / pause button — always visible, left of art */}
       <Button
         size="icon"
         variant="ghost"
         className="size-8 flex-shrink-0 text-white/50 hover:text-white"
         onClick={handlePlayClick}
+        aria-label={isPlayingTrack ? `Pause ${track.title}` : `Play ${track.title}`}
       >
-        {isPlayingTrack ? (
-          <Pause className="size-4" />
-        ) : (
-          <Play className="size-4" />
-        )}
+        {isPlayingTrack ? <Pause className="size-4" /> : <Play className="size-4" />}
       </Button>
 
-      {/* Artwork */}
       <div className="relative h-12 w-12 flex-shrink-0 overflow-hidden rounded-md bg-white/10">
         <Image
           src={track.artwork.src}
@@ -89,7 +93,6 @@ export default function TrackRow({
         />
       </div>
 
-      {/* Track info */}
       <div className="min-w-0 flex-1">
         <p
           className={`truncate text-sm font-medium ${
@@ -107,32 +110,38 @@ export default function TrackRow({
         </p>
       </div>
 
-      {/* Badges — hidden on small screens */}
+      {/* Badges: Lyrics opens the panel, Compare deep-links to the page */}
       <div className="hidden items-center gap-1 md:flex">
         {track.lyrics ? (
-          <Badge variant="outline" className="gap-1 py-0 text-[10px]">
+          <span className="inline-flex items-center gap-1 rounded-full border border-white/15 px-2 py-0.5 text-[10px] text-white/50">
             <Music className="size-2.5" />
             Lyrics
-          </Badge>
+          </span>
         ) : null}
         {track.audio.originalUrl ? (
-          <Badge variant="outline" className="gap-1 py-0 text-[10px]">
+          <Link
+            scroll={false}
+            href={songHref(track.id, "compare")}
+            onClick={(e) => e.stopPropagation()}
+            className="inline-flex items-center gap-1 rounded-full border border-white/15 px-2 py-0.5 text-[10px] text-white/50 transition hover:border-white/40 hover:text-white"
+          >
             <GitCompare className="size-2.5" />
             Compare
-          </Badge>
+          </Link>
         ) : null}
       </div>
 
-      {/* Hover actions */}
-      <div className="flex flex-shrink-0 items-center gap-1 opacity-0 transition-opacity group-hover:opacity-100">
+      <div className="flex flex-shrink-0 items-center gap-1">
         <Button
           size="icon"
           variant="ghost"
-          className="size-7"
+          className="size-7 opacity-0 transition-opacity group-hover:opacity-100 focus-visible:opacity-100"
           onClick={handleQueueClick}
+          aria-label={`Add ${track.title} to queue`}
         >
           <ListPlus className="size-3.5" />
         </Button>
+        <ChevronRight className="size-4 text-white/20 transition group-hover:text-white/60" />
       </div>
     </div>
   );

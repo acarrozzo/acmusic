@@ -22,6 +22,8 @@ type PlayerState = {
   audioRef: HTMLAudioElement | null;
   setAudioRef: (audio: HTMLAudioElement | null) => void;
   setQueue: (queue: Track[], startIndex?: number) => void;
+  /** Replace the queue and start playing immediately. */
+  playQueue: (queue: Track[], startIndex?: number) => void;
   enqueue: (track: Track) => void;
   removeFromQueue: (index: number) => void;
   clearQueue: () => void;
@@ -68,6 +70,17 @@ export const usePlayerStore = create<PlayerState>((set, get) => ({
       currentTime: 0,
     });
     loadTrack(get().audioRef, queue[startIndex] ?? null, false);
+  },
+  playQueue: (queue, startIndex = 0) => {
+    if (queue.length === 0) return;
+    const index = Math.max(0, Math.min(startIndex, queue.length - 1));
+    set({
+      queue,
+      currentIndex: index,
+      isPlaying: true,
+      currentTime: 0,
+    });
+    loadTrack(get().audioRef, queue[index] ?? null, true);
   },
   enqueue: (track) => {
     set((state) => ({

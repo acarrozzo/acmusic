@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useEffect, useMemo } from "react";
 import {
+  ChevronUp,
   Pause,
   Play,
   Repeat,
@@ -16,6 +17,9 @@ import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 import { usePlayerStore } from "@/lib/player/store";
 import QueueDrawer from "./QueueDrawer";
+import { usePathname } from "next/navigation";
+import { songHref } from "@/lib/catalog";
+import { useUi } from "@/lib/ui";
 
 const formatTime = (time: number) => {
   if (!Number.isFinite(time)) return "0:00";
@@ -40,6 +44,11 @@ export default function BottomPlayer() {
   const setShuffle = usePlayerStore((s) => s.setShuffle);
   const setRepeat = usePlayerStore((s) => s.setRepeat);
   const setVolume = usePlayerStore((s) => s.setVolume);
+  const togglePanel = useUi((s) => s.togglePanel);
+  const panelOpen = useUi((s) => s.panelOpen);
+  const panelMode = useUi((s) => s.panelMode);
+  const pathname = usePathname();
+  const panelShowsNowPlaying = panelOpen && panelMode === "now-playing";
 
   const currentTrack = useMemo(
     () => queue[currentIndex] ?? null,
@@ -80,26 +89,62 @@ export default function BottomPlayer() {
     <div className="flex-shrink-0 border-t border-white/[0.07] bg-zinc-950 px-4 py-3">
       <div className="flex items-center gap-4">
 
-        {/* Left: artwork + track info */}
-        <div className="flex w-56 flex-shrink-0 items-center gap-3 lg:w-72">
-          <div className="relative h-14 w-14 flex-shrink-0 overflow-hidden rounded-lg bg-white/10">
-            <Image
-              src={currentTrack.artwork.src}
-              alt={currentTrack.artwork.alt ?? currentTrack.title}
-              fill
-              sizes="56px"
-              className="object-cover"
-            />
-          </div>
-          <div className="min-w-0">
-            <p className="truncate text-sm font-medium text-white">
-              {currentTrack.title}
-            </p>
-            <p className="truncate text-xs italic text-white/50">
-              {currentTrack.description}
-            </p>
-          </div>
-        </div>
+        {/* Left: artwork + track info — opens the song panel. On the song's
+            own page there is nothing to open, so the block is inert. */}
+        {(() => {
+          const onOwnPage = pathname === songHref(currentTrack.id);
+          const hint = onOwnPage
+            ? "this page"
+            : panelShowsNowPlaying
+            ? "hide"
+            : "details";
+          return (
+            <button
+              type="button"
+              onClick={onOwnPage ? undefined : togglePanel}
+              disabled={onOwnPage}
+              aria-expanded={onOwnPage ? undefined : panelShowsNowPlaying}
+              aria-label={
+                onOwnPage
+                  ? `${currentTrack.title} is open`
+                  : panelShowsNowPlaying
+                  ? "Hide song details"
+                  : `Show details for ${currentTrack.title}`
+              }
+              className={`group -ml-1 flex w-56 flex-shrink-0 items-center gap-3 rounded-lg py-1 pl-1 pr-2 text-left transition lg:w-72 ${
+                onOwnPage ? "cursor-default" : "hover:bg-white/5"
+              }`}
+            >
+              <div className="relative h-14 w-14 flex-shrink-0 overflow-hidden rounded-lg bg-white/10">
+                <Image
+                  src={currentTrack.artwork.src}
+                  alt={currentTrack.artwork.alt ?? currentTrack.title}
+                  fill
+                  sizes="56px"
+                  className="object-cover"
+                />
+                {!onOwnPage ? (
+                  <div className="absolute inset-0 flex items-center justify-center bg-black/50 opacity-0 transition group-hover:opacity-100">
+                    <ChevronUp
+                      className={`size-4 text-white transition ${panelShowsNowPlaying ? "rotate-180" : ""}`}
+                    />
+                  </div>
+                ) : null}
+              </div>
+              <div className="min-w-0">
+                <p className="text-[9px] uppercase tracking-[0.25em] text-white/30 group-hover:text-emerald-300/80">
+                  {isPlaying ? "Now playing" : "Up next"} · {hint}
+                </p>
+                <p className="truncate text-sm font-medium text-white">
+                  {currentTrack.title}
+                </p>
+                <p className="truncate text-xs italic text-white/50">
+                  {currentTrack.description}
+                </p>
+              </div>
+            </button>
+          );
+        })()}
 
         {/* Center: controls + progress */}
         <div className="flex flex-1 flex-col items-center gap-2">

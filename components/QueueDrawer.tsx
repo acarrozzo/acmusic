@@ -10,6 +10,7 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { usePlayerStore } from "@/lib/player/store";
+import { useUi } from "@/lib/ui";
 
 export default function QueueDrawer() {
   const queue = usePlayerStore((state) => state.queue);
@@ -17,18 +18,20 @@ export default function QueueDrawer() {
   const playIndex = usePlayerStore((state) => state.playIndex);
   const removeFromQueue = usePlayerStore((state) => state.removeFromQueue);
   const clearQueue = usePlayerStore((state) => state.clearQueue);
+  const open = useUi((s) => s.queueOpen);
+  const setOpen = useUi((s) => s.setQueueOpen);
 
   return (
-    <Sheet>
+    <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger asChild>
-        <Button variant="outline" className="relative">
+        <Button variant="outline" className="relative" aria-label="Open queue">
           <ListMusic className="size-4" />
           {queue.length > 0 && (
             <span className="ml-2 text-xs">{queue.length}</span>
           )}
         </Button>
       </SheetTrigger>
-      <SheetContent side="bottom" className="max-h-[70vh] border-white/[0.07] bg-zinc-950">
+      <SheetContent side="bottom" className="max-h-[70vh] overflow-y-auto border-white/[0.07] bg-zinc-950">
         <SheetHeader>
           <SheetTitle>Queue</SheetTitle>
         </SheetHeader>

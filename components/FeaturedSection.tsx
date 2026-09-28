@@ -9,6 +9,7 @@ import type { Track } from "@/data/tracks";
 import { tracks } from "@/data/tracks";
 import { groups } from "@/data/groups";
 import { usePlayerStore } from "@/lib/player/store";
+import { useUi } from "@/lib/ui";
 
 const FEATURED: Array<{ id: string; quote: string }> = [
   {
@@ -46,6 +47,7 @@ function FeaturedCard({ track, quote, onPlay }: FeaturedCardProps) {
   const isPlayingTrack = isActiveTrack && isPlaying;
 
   const group = useMemo(() => groups.find((g) => g.id === track.groupId), [track.groupId]);
+  const openTrack = useUi((s) => s.openTrack);
 
   const handlePlay = () => {
     if (isActiveTrack) togglePlay();
@@ -55,7 +57,12 @@ function FeaturedCard({ track, quote, onPlay }: FeaturedCardProps) {
   return (
     <div className="group flex flex-col overflow-hidden rounded-2xl border border-white/10 bg-zinc-900 transition hover:border-white/20">
       {/* Square artwork with gradient bleed + quote */}
-      <div className="relative aspect-square w-full max-h-[360px] shrink-0 overflow-hidden">
+      <button
+        type="button"
+        onClick={() => openTrack(track.id)}
+        aria-label={`Show details for ${track.title}`}
+        className="relative block aspect-square w-full max-h-[360px] shrink-0 overflow-hidden text-left"
+      >
         <Image
           src={track.artwork.src}
           alt={track.artwork.alt ?? track.title}
@@ -70,7 +77,7 @@ function FeaturedCard({ track, quote, onPlay }: FeaturedCardProps) {
             &ldquo;{quote}&rdquo;
           </p>
         </div>
-      </div>
+      </button>
 
       {/* Card content: play button left, all text right */}
       <div className="flex items-start gap-2 px-3 pb-3 pt-2 sm:gap-3 sm:px-4 sm:pb-4 sm:pt-3">
@@ -92,7 +99,15 @@ function FeaturedCard({ track, quote, onPlay }: FeaturedCardProps) {
               {group.name}
             </p>
           )}
-          <h3 className="truncate text-sm font-semibold text-white">{track.title}</h3>
+          <h3 className="truncate text-sm font-semibold text-white">
+            <button
+              type="button"
+              onClick={() => openTrack(track.id)}
+              className="truncate hover:underline"
+            >
+              {track.title}
+            </button>
+          </h3>
           <p className="mt-1 line-clamp-2 text-xs italic text-white/45">{track.description}</p>
           <div className="mt-2 hidden flex-wrap gap-1.5 sm:flex">
             {track.tags.map((tag) => (
@@ -120,15 +135,25 @@ export default function FeaturedSection({ onPlay }: FeaturedSectionProps) {
   if (featuredTracks.length === 0) return null;
 
   return (
-    <div className="mb-6 grid grid-cols-2 gap-3 sm:gap-4 xl:grid-cols-4">
-      {featuredTracks.map(({ track, quote }) => (
-        <FeaturedCard
-          key={track.id}
-          track={track}
-          quote={quote}
-          onPlay={onPlay}
-        />
-      ))}
-    </div>
+    <section className="mb-8">
+      <div className="mb-3 px-1">
+        <p className="text-[10px] uppercase tracking-[0.3em] text-white/30">
+          Start here
+        </p>
+        <p className="mt-1 text-xs text-white/40">
+          Four songs that show the range. Press play, or open one to read along.
+        </p>
+      </div>
+      <div className="grid grid-cols-2 gap-3 sm:gap-4 xl:grid-cols-4">
+        {featuredTracks.map(({ track, quote }) => (
+          <FeaturedCard
+            key={track.id}
+            track={track}
+            quote={quote}
+            onPlay={onPlay}
+          />
+        ))}
+      </div>
+    </section>
   );
 }

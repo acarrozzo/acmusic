@@ -84,7 +84,6 @@ function MiniPlayer({ src, label, sublabel }: MiniPlayerProps) {
       {sublabel ? (
         <p className="mt-1 text-xs text-white/50">{sublabel}</p>
       ) : null}
-      {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
       <audio ref={audioRef} src={src} preload="metadata" />
       <div className="mt-3 flex items-center gap-3">
         <Button
