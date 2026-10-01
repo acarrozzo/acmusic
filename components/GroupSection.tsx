@@ -4,6 +4,8 @@ import { ListPlus, Play } from "lucide-react";
 import type { Group } from "@/data/groups";
 import type { Track } from "@/data/tracks";
 import { Button } from "@/components/ui/button";
+import { sortedAlbums } from "@/lib/catalog";
+import AlbumSection from "./AlbumSection";
 import TrackRow from "./TrackRow";
 
 type GroupSectionProps = {
@@ -13,6 +15,8 @@ type GroupSectionProps = {
   onPlayTrack: (track: Track, context: Track[]) => void;
   onQueueTrack: (track: Track) => void;
   onQueueGroup: (tracks: Track[]) => void;
+  /** The catalog is filtered to this persona: room for its story. */
+  featured?: boolean;
 };
 
 export default function GroupSection({
@@ -22,10 +26,19 @@ export default function GroupSection({
   onPlayTrack,
   onQueueTrack,
   onQueueGroup,
+  featured = false,
 }: GroupSectionProps) {
   if (tracks.length === 0) return null;
 
   const accent = group.brand?.accent ?? "rgba(255,255,255,0.2)";
+  const looseTracks = tracks.filter((t) => !t.albumId);
+  const albumSections = sortedAlbums
+    .filter((album) => album.groupId === group.id)
+    .map((album) => ({
+      album,
+      tracks: tracks.filter((t) => t.albumId === album.id),
+    }))
+    .filter((section) => section.tracks.length > 0);
 
   return (
     <section id={group.id} className="mb-6">
@@ -64,8 +77,14 @@ export default function GroupSection({
         </div>
       </div>
 
+      {featured && group.story ? (
+        <p className="mb-4 max-w-3xl px-6 text-sm leading-relaxed text-white/50">
+          {group.story}
+        </p>
+      ) : null}
+
       <div className="flex flex-col">
-        {tracks.map((track) => (
+        {looseTracks.map((track) => (
           <TrackRow
             key={track.id}
             track={track}
@@ -74,6 +93,18 @@ export default function GroupSection({
           />
         ))}
       </div>
+
+      {albumSections.map(({ album, tracks: albumTracks }) => (
+        <AlbumSection
+          key={album.id}
+          album={album}
+          tracks={albumTracks}
+          onPlayTrack={(t) => onPlayTrack(t, tracks)}
+          onPlayAlbum={(list) => onPlayTrack(list[0], list)}
+          onQueueTrack={onQueueTrack}
+          onQueueAlbum={onQueueGroup}
+        />
+      ))}
     </section>
   );
 }

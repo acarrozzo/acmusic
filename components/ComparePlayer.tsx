@@ -6,13 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 import type { Track } from "@/data/tracks";
 import { usePlayerStore } from "@/lib/player/store";
-
-const formatTime = (time: number) => {
-  if (!Number.isFinite(time)) return "0:00";
-  const minutes = Math.floor(time / 60);
-  const seconds = Math.floor(time % 60);
-  return `${minutes}:${seconds.toString().padStart(2, "0")}`;
-};
+import { formatTime } from "@/lib/utils";
 
 type MiniPlayerProps = {
   src: string;

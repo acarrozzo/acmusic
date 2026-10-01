@@ -20,13 +20,7 @@ import QueueDrawer from "./QueueDrawer";
 import { usePathname } from "next/navigation";
 import { songHref } from "@/lib/catalog";
 import { useUi } from "@/lib/ui";
-
-const formatTime = (time: number) => {
-  if (!Number.isFinite(time)) return "0:00";
-  const minutes = Math.floor(time / 60);
-  const seconds = Math.floor(time % 60);
-  return `${minutes}:${seconds.toString().padStart(2, "0")}`;
-};
+import { formatTime } from "@/lib/utils";
 
 export default function BottomPlayer() {
   const queue = usePlayerStore((s) => s.queue);

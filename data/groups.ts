@@ -52,11 +52,11 @@ export const groups: Group[] = [
   {
     id: "strange-sounds-for-strange-times",
     name: "ss4st",
-    tagline: "Left turns and sharp corners.",
+    tagline: "Handcrafted sound",
     description:
-      "Strange Sounds for Strange Times — rhymed narratives with playful rhythm shifts and sub-heavy hooks.",
+      "Strange Sounds for Strange Times — three albums of instrumentals, 100% hand made and hand edited.",
     story:
-      "Sometimes a song just wants to be weird. This is the corner of my catalog where rhyme schemes get slippery, the rhythm shifts mid-bar, and I'm having more fun than I probably should.",
+      "Strange Sounds for Strange Times is my solo instrumentalproject: the tunes I made for fun, in Garage Band and Logic, with too many guitars, a few basses, an uke, a banjo and a midi keyboard. Strings, synths, beats and all sorts of strange sounds. Between 2010 and 2018 I gathered more than forty of them into three albums, The Lost Instrumentals, Bizarrr and Drift, and put them up on Spotify, Apple Music and the rest. Every note here is 100% hand edited, played, programmed and mixed by me, long before AI had anything to do with music. No lyrics, no vocals, just some strange sounds for these strange times.",
     brand: { accent: "#8b7cff", markText: "SS" },
     order: 6,
   },
@@ -65,9 +65,9 @@ export const groups: Group[] = [
     name: "Banned from the Zoo",
     tagline: "Wild sounds from the outside.",
     description:
-      "Experimental compositions that break free from conventional boundaries.",
+      "A five-piece New York rock band, 2010 to 2015. Real amps, real drums, one four-song demo.",
     story:
-      "The experimental wing , songs that didn't fit anywhere else and are better for it. No rules, no genre, just curiosity. I kept these because I think they're the most honest things I've made.",
+      "Banned from the Zoo was five of us playing rock shows around New York City from 2010 to 2015, me on bass. In 2012 we went into a Brooklyn studio and cut the four songs we'd been playing live, The BFTZ Demo. It's the loudest thing in this catalog and the only part of it recorded as a band, all live players and zero AI.",
     brand: { accent: "#ff6b35", markText: "BFZ" },
     order: 7,
   },
@@ -104,14 +104,14 @@ export const groups: Group[] = [
     order: 4,
   },
   {
-    id: "first-human",
-    name: "First Human",
-    tagline: "Before language, there was groove.",
+    id: "odd-emcee",
+    name: "Odd Emcee",
+    tagline: "Too many syllables, all of them on purpose.",
     description:
-      "Primal, instinctual songs stripped to the bone and built back up.",
+      "Hip-hop from a strange angle: storytelling raps, comedy, and rhymes that take the long way around.",
     story:
-      "First Human is the persona that predates the rest. No genre loyalty, no learned behavior — just the raw impulse to move, connect, and survive. These songs live somewhere between memory and instinct.",
-    brand: { accent: "#ea580c", markText: "FH" },
+      "Welcome to this side of this odd emcee. This is where I rap: stories, jokes, a caveman flexing for a girl, whatever the beat asks for. I've been writing rhymes since the notebook days, and these are the ones that only ever worked out loud.",
+    brand: { accent: "#2dd4bf", markText: "OE" },
     order: 5,
   },
 ];

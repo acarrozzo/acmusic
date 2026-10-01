@@ -94,7 +94,7 @@ export default function Sidebar({
           <Search className="size-4" />
         </button>
 
-        <nav aria-label="Projects" className="mt-3 flex flex-col items-center gap-1 border-t border-white/[0.07] pt-3">
+        <nav aria-label="Personas" className="mt-3 flex flex-col items-center gap-1 border-t border-white/[0.07] pt-3">
           <button
             type="button"
             onClick={() => setGroup("all")}
@@ -198,7 +198,7 @@ export default function Sidebar({
         {/* Project nav */}
         <nav className="px-3">
           <p className="mb-2 px-2 text-[10px] uppercase tracking-[0.3em] text-white/30">
-            Projects
+            Personas
           </p>
           <button
             type="button"

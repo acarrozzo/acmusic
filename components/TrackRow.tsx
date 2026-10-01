@@ -10,11 +10,14 @@ import { isPlaceholderTrack } from "@/data/tracks";
 import { songHref } from "@/lib/catalog";
 import { usePlayerStore } from "@/lib/player/store";
 import { useUi } from "@/lib/ui";
+import { formatTime } from "@/lib/utils";
 
 type TrackRowProps = {
   track: Track;
   onPlay: (track: Track) => void;
   onQueue: (track: Track) => void;
+  /** Album rows: show the track number where the artwork would be. */
+  numbered?: boolean;
 };
 
 /**
@@ -22,7 +25,7 @@ type TrackRowProps = {
  * button plays. The Compare badge deep-links to the full page, since the
  * panel doesn't host the version players.
  */
-export default function TrackRow({ track, onPlay, onQueue }: TrackRowProps) {
+export default function TrackRow({ track, onPlay, onQueue, numbered = false }: TrackRowProps) {
   const openTrack = useUi((s) => s.openTrack);
   const panelOpen = useUi((s) => s.panelOpen);
   const panelMode = useUi((s) => s.panelMode);
@@ -65,7 +68,9 @@ export default function TrackRow({ track, onPlay, onQueue }: TrackRowProps) {
       }}
       aria-label={`Show details for ${track.title}`}
       aria-pressed={isSelected}
-      className={`group flex cursor-pointer items-center gap-3 rounded-lg px-3 py-2.5 transition outline-none focus-visible:ring-1 focus-visible:ring-white/30 ${
+      className={`group flex cursor-pointer items-center gap-3 rounded-lg px-3 ${
+        numbered ? "py-1.5" : "py-2.5"
+      } transition outline-none focus-visible:ring-1 focus-visible:ring-white/30 ${
         isActiveTrack
           ? "bg-white/10"
           : isSelected
@@ -83,15 +88,21 @@ export default function TrackRow({ track, onPlay, onQueue }: TrackRowProps) {
         {isPlayingTrack ? <Pause className="size-4" /> : <Play className="size-4" />}
       </Button>
 
-      <div className="relative h-12 w-12 flex-shrink-0 overflow-hidden rounded-md bg-white/10">
-        <Image
-          src={track.artwork.src}
-          alt={track.artwork.alt ?? track.title}
-          fill
-          sizes="48px"
-          className="object-cover"
-        />
-      </div>
+      {numbered ? (
+        <span className="w-6 flex-shrink-0 text-right text-xs tabular-nums text-white/30">
+          {track.trackNumber}
+        </span>
+      ) : (
+        <div className="relative h-12 w-12 flex-shrink-0 overflow-hidden rounded-md bg-white/10">
+          <Image
+            src={track.artwork.src}
+            alt={track.artwork.alt ?? track.title}
+            fill
+            sizes="48px"
+            className="object-cover"
+          />
+        </div>
+      )}
 
       <div className="min-w-0 flex-1">
         <p
@@ -105,9 +116,11 @@ export default function TrackRow({ track, onPlay, onQueue }: TrackRowProps) {
         >
           {track.title}
         </p>
-        <p className={`truncate text-xs italic ${isPlaceholder ? "text-white/20" : "text-white/40"}`}>
-          {track.description}
-        </p>
+        {numbered ? null : (
+          <p className={`truncate text-xs italic ${isPlaceholder ? "text-white/20" : "text-white/40"}`}>
+            {track.description}
+          </p>
+        )}
       </div>
 
       {/* Badges: Lyrics opens the panel, Compare deep-links to the page */}
@@ -132,6 +145,11 @@ export default function TrackRow({ track, onPlay, onQueue }: TrackRowProps) {
       </div>
 
       <div className="flex flex-shrink-0 items-center gap-1">
+        {track.duration ? (
+          <span className="mr-1 text-xs tabular-nums text-white/30">
+            {formatTime(track.duration)}
+          </span>
+        ) : null}
         <Button
           size="icon"
           variant="ghost"

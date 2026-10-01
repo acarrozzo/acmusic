@@ -14,7 +14,15 @@ import {
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { getGroup, getTrack, orderedTracks, songHref } from "@/lib/catalog";
+import { isInstrumentalTrack } from "@/data/tracks";
+import {
+  albumTrackLine,
+  getAlbum,
+  getGroup,
+  getTrack,
+  orderedTracks,
+  songHref,
+} from "@/lib/catalog";
 import { catalogHref } from "@/lib/useCatalogFilters";
 import { usePlayerStore } from "@/lib/player/store";
 import { useUi } from "@/lib/ui";
@@ -67,6 +75,7 @@ export default function SongPanel() {
     );
   }
 
+  const album = getAlbum(track.albumId);
   const isActiveTrack = currentTrack?.id === track.id;
   const isPlayingTrack = isActiveTrack && isPlaying;
   const playbackStarted = isPlaying || currentTime > 0;
@@ -179,6 +188,9 @@ export default function SongPanel() {
             </Link>
           </h2>
           <p className="mt-1 text-sm italic text-white/50">{track.description}</p>
+          {album ? (
+            <p className="mt-1 text-xs text-white/40">{albumTrackLine(album, track)}</p>
+          ) : null}
           <div className="mt-2 flex flex-wrap gap-1.5">
             {track.tags.map((tag) => (
               <Link
@@ -233,7 +245,9 @@ export default function SongPanel() {
               {track.lyrics.text}
             </p>
           ) : (
-            <p className="text-sm italic text-white/25">No lyrics available</p>
+            <p className="text-sm italic text-white/25">
+              {isInstrumentalTrack(track) ? "Instrumental" : "No lyrics available"}
+            </p>
           )}
         </div>
 

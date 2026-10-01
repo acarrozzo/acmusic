@@ -6,13 +6,24 @@ import { useMemo } from "react";
 import { ArrowLeft, ArrowRight, ListPlus, Pause, Play } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import type { Track } from "@/data/tracks";
-import { getGroup, orderedTracks, songHref } from "@/lib/catalog";
+import type { Album } from "@/data/albums";
+import { isInstrumentalTrack, type Track } from "@/data/tracks";
+import {
+  albumSummary,
+  albumTrackLine,
+  getAlbum,
+  getAlbumTracks,
+  getGroup,
+  orderedTracks,
+  songHref,
+} from "@/lib/catalog";
 import { catalogHref } from "@/lib/useCatalogFilters";
 import { usePlayerStore } from "@/lib/player/store";
 import { useBackToCatalog } from "@/lib/useBackToCatalog";
 import { useScrollToTopOrHash } from "@/lib/scrollMemory";
+import { formatTime } from "@/lib/utils";
 import ComparePlayer from "./ComparePlayer";
+import StreamingLinks from "./StreamingLinks";
 
 function BackToCatalog() {
   const { href, cameFromCatalog, go } = useBackToCatalog();
@@ -79,6 +90,54 @@ function NowPlayingBanner({
   );
 }
 
+/** Fills the lyrics column for album tracks that have none. */
+function AlbumTrackList({ album, currentId }: { album: Album; currentId: string }) {
+  return (
+    <>
+      <p className="mb-5 text-[10px] uppercase tracking-[0.3em] text-white/30">
+        From the album
+      </p>
+      <h2 className="text-lg font-semibold text-white">{album.title}</h2>
+      <p className="mt-0.5 text-xs text-white/40">{albumSummary(album)}</p>
+      {album.description ? (
+        <p className="mt-2 text-sm italic text-white/50">{album.description}</p>
+      ) : null}
+      <div className="mt-3 flex flex-wrap gap-1.5">
+        <StreamingLinks links={album.links} title={album.title} />
+      </div>
+      <ol className="mt-5 flex flex-col">
+        {getAlbumTracks(album.id).map((t) => {
+          const isCurrent = t.id === currentId;
+          return (
+            <li key={t.id}>
+              <Link
+                scroll={false}
+                href={songHref(t.id)}
+                aria-current={isCurrent ? "page" : undefined}
+                className={`flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition ${
+                  isCurrent
+                    ? "bg-white/10 text-white"
+                    : "text-white/70 hover:bg-white/5 hover:text-white"
+                }`}
+              >
+                <span className="w-6 flex-shrink-0 text-right text-xs tabular-nums text-white/30">
+                  {t.trackNumber}
+                </span>
+                <span className="min-w-0 flex-1 truncate">{t.title}</span>
+                {t.duration ? (
+                  <span className="text-xs tabular-nums text-white/30">
+                    {formatTime(t.duration)}
+                  </span>
+                ) : null}
+              </Link>
+            </li>
+          );
+        })}
+      </ol>
+    </>
+  );
+}
+
 export default function SongPage({ track }: { track: Track }) {
   const queue = usePlayerStore((s) => s.queue);
   const currentIndex = usePlayerStore((s) => s.currentIndex);
@@ -92,6 +151,7 @@ export default function SongPage({ track }: { track: Track }) {
   const isActiveTrack = currentTrack?.id === track.id;
   const isPlayingTrack = isActiveTrack && isPlaying;
   const group = useMemo(() => getGroup(track.groupId), [track.groupId]);
+  const album = getAlbum(track.albumId);
   const containerRef = useScrollToTopOrHash();
   const banner = useNowPlayingBanner(track);
 
@@ -159,6 +219,9 @@ export default function SongPage({ track }: { track: Track }) {
                 {track.title}
               </h1>
               <p className="mt-2 text-sm italic text-white/50">{track.description}</p>
+              {album ? (
+                <p className="mt-2 text-xs text-white/40">{albumTrackLine(album, track)}</p>
+              ) : null}
               <div className="mt-3 flex flex-wrap gap-1.5">
                 {track.tags.map((tag) => (
                   <Link
@@ -195,6 +258,14 @@ export default function SongPage({ track }: { track: Track }) {
                   Queue
                 </Button>
               </div>
+              {track.links ? (
+                <div className="mt-4 flex flex-wrap items-center gap-1.5">
+                  <span className="mr-1 text-[10px] uppercase tracking-[0.3em] text-white/30">
+                    Also on
+                  </span>
+                  <StreamingLinks links={track.links} title={track.title} />
+                </div>
+              ) : null}
             </div>
 
             {track.audio.originalUrl ? (
@@ -244,9 +315,13 @@ export default function SongPage({ track }: { track: Track }) {
                   {track.lyrics.text}
                 </p>
               </>
+            ) : album ? (
+              <AlbumTrackList album={album} currentId={track.id} />
             ) : (
               <div className="flex h-40 items-center justify-center lg:h-full lg:min-h-[200px]">
-                <p className="text-sm italic text-white/25">No lyrics available</p>
+                <p className="text-sm italic text-white/25">
+                  {isInstrumentalTrack(track) ? "Instrumental" : "No lyrics available"}
+                </p>
               </div>
             )}
           </div>

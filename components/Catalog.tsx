@@ -78,6 +78,7 @@ export default function Catalog() {
           onPlayTrack={handlePlayTrack}
           onQueueTrack={enqueue}
           onQueueGroup={(groupTracks) => groupTracks.forEach(enqueue)}
+          featured={filters.groupId === group.id}
         />
       ))}
     </div>

@@ -1,6 +1,11 @@
+import type { StreamingLinks } from "./albums";
+import { ss4stTracks } from "./ss4st";
+
 export type Track = {
   id: string;
   groupId: string;
+  albumId?: string;
+  trackNumber?: number;
   title: string;
   description: string;
   tags: string[];
@@ -20,6 +25,9 @@ export type Track = {
     description: string;
   };
   releaseDate?: string;
+  /** Length in seconds. */
+  duration?: number;
+  links?: StreamingLinks;
   downloads?: {
     allow: boolean;
     filename?: string;
@@ -32,6 +40,9 @@ const PH_MP3 = "/songs/placeholder.mp3";
 
 export const isPlaceholderTrack = (track: Track) =>
   track.artwork.src === PH_IMG || track.audio.sunoCoverUrl === PH_MP3;
+
+export const isInstrumentalTrack = (track: Track) =>
+  track.tags.includes("instrumental");
 
 export const tracks: Track[] = [
   // ─── SAINT ANTHONY ───────────────────────────────────────────────────────────
@@ -1529,8 +1540,8 @@ I'm overflowing yes I just can't get enough of your love
   },
 
   {
-    id: "fh-fine-specimen",
-    groupId: "first-human",
+    id: "oe-fine-specimen",
+    groupId: "odd-emcee",
     title: "Fine Specimen (10,000 BC)",
     description: "Modern man imagines himself in prehistoric peak condition.",
     tags: ["hip-hop", "comedy", "storytelling"],
@@ -1642,7 +1653,18 @@ my muscles are huge - i don't have a mouse to click
 but in this time, I am a modern man
 So please be mine, you're such a fine - specimen`,
     },
-    order: 7,
+    order: 1,
+  },
+
+  {
+    id: "oe-what-up-sun",
+    groupId: "odd-emcee",
+    title: "What up Sun",
+    description: "Coming soon.",
+    tags: ["hip-hop", "placeholder"],
+    artwork: { src: PH_IMG },
+    audio: { sunoCoverUrl: PH_MP3 },
+    order: 2,
   },
 
   {
@@ -1727,11 +1749,69 @@ One, two, three is the perfect number`,
     order: 8,
   },
 
-  // ─── KIDS ─────────────────────────────────────────────────────────────────────
+  // ─── MISC ─────────────────────────────────────────────────────────────────────
+
+  {
+    id: "misc-uncle-carmine-because-of-you",
+    groupId: "misc",
+    title: "Because of You",
+    description: "A love song written for Linda, through Carmine's voice.",
+    tags: ["love-song", "classic-pop", "family"],
+    artwork: { src: PH_IMG },
+    audio: { sunoCoverUrl: PH_MP3 },
+    lyrics: {
+      text: `[Verse 1]
+I used to lie asleep at night
+Wondering if I'd feel love again
+As my mind finally drifts away
+I wake up hoping when
+
+[Verse 2]
+As time went by
+A friend said to me
+I know the sweetest girl for you
+And I wondered could it be
+At last I finally met you
+I was so nervous and shy
+But when you looked at me
+I felt something deep inside
+
+[Chorus]
+Never thought I'd fall in love again
+Linda now I know it's because of you
+Been so lonely since way back when
+But when I think of you my heart's no longer blue
+Linda (Linda)
+It's because of you
+Linda (Linda)
+It's because of you
+
+[Verse 3]
+Every time I see you
+I'd get that feeling more and more
+But I'll take it day by day
+And hope I know for sure
+Now time's gone by
+And I know that this is true
+I know I'm in love with you girl
+And Linda it's because of you
+
+[Chorus]
+Never thought I'd fall in love again
+Linda now I know it's because of you
+Been so lonely since way back when
+But when I think of you my heart's no longer blue
+Linda (Linda)
+It's because of you
+Linda (Linda)
+It's because of you`,
+    },
+    order: 1,
+  },
 
   {
     id: "kids-abby-dabby-do",
-    groupId: "kids",
+    groupId: "misc",
     title: "Abby Dabby Do (Magic On the Move)",
     description: "A superhero theme for a little girl with magic in her pocket.",
     tags: ["kids", "pop", "uplifting"],
@@ -1813,9 +1893,80 @@ Abby… Abby Dabby… Abby Dabby Do!
 Abby Dabby Do…
 I love you…`,
     },
+    order: 3,
+  },
+
+  // ─── BANNED FROM THE ZOO ──────────────────────────────────────────────────────
+
+  {
+    id: "bftz-fish-tacos",
+    groupId: "banned-from-the-zoo",
+    albumId: "bftz-demo",
+    trackNumber: 1,
+    title: "Fish Tacos",
+    description: "From The BFTZ Demo (2012).",
+    tags: ["rock", "band"],
+    artwork: { src: "/art/bftz/the-bftz-demo.jpg", alt: "The BFTZ Demo album art" },
+    audio: { sunoCoverUrl: "/songs/bftz/01-fish-tacos.mp3" },
+    duration: 224,
+    links: { spotify: "https://open.spotify.com/track/3ger2ca1kbJY2h5iHQGfMD" },
     order: 1,
   },
 
+  {
+    id: "bftz-turn-on-me",
+    groupId: "banned-from-the-zoo",
+    albumId: "bftz-demo",
+    trackNumber: 2,
+    title: "Turn On Me",
+    description: "From The BFTZ Demo (2012).",
+    tags: ["rock", "band"],
+    artwork: { src: "/art/bftz/the-bftz-demo.jpg", alt: "The BFTZ Demo album art" },
+    audio: { sunoCoverUrl: "/songs/bftz/02-turn-on-me.mp3" },
+    duration: 262,
+    links: { spotify: "https://open.spotify.com/track/552PCajKOgqfJoqA690wSp" },
+    order: 2,
+  },
+
+  {
+    id: "bftz-black-out-betty",
+    groupId: "banned-from-the-zoo",
+    albumId: "bftz-demo",
+    trackNumber: 3,
+    title: "Black Out Betty",
+    description: "From The BFTZ Demo (2012).",
+    tags: ["rock", "band"],
+    artwork: { src: "/art/bftz/the-bftz-demo.jpg", alt: "The BFTZ Demo album art" },
+    audio: { sunoCoverUrl: "/songs/bftz/03-black-out-betty.mp3" },
+    duration: 153,
+    links: { spotify: "https://open.spotify.com/track/5gBzjvsFAZVYYFRgHUHZNy" },
+    order: 3,
+  },
+
+  {
+    id: "bftz-encore",
+    groupId: "banned-from-the-zoo",
+    albumId: "bftz-demo",
+    trackNumber: 4,
+    title: "Encore",
+    description: "From The BFTZ Demo (2012).",
+    tags: ["rock", "band"],
+    artwork: { src: "/art/bftz/the-bftz-demo.jpg", alt: "The BFTZ Demo album art" },
+    audio: { sunoCoverUrl: "/songs/bftz/04-encore.mp3" },
+    duration: 257,
+    links: { spotify: "https://open.spotify.com/track/1cspuiAAODSoxmHLI1SHfh" },
+    order: 4,
+  },
+
+  // ─── SS4ST ALBUMS ─────────────────────────────────────────────────────────────
+
+  ...ss4stTracks,
+];
+
+// ─── SHELVED ──────────────────────────────────────────────────────────────────
+// Not in the catalog for now. Kept here so nothing is lost.
+
+export const shelvedTracks: Track[] = [
   {
     id: "kids-alex-the-three-keys",
     groupId: "kids",
@@ -2079,65 +2230,5 @@ Robert Joseph Carrozzo`,
     artwork: { src: PH_IMG },
     audio: { sunoCoverUrl: PH_MP3 },
     order: 6,
-  },
-
-  // ─── MISC ─────────────────────────────────────────────────────────────────────
-
-  {
-    id: "misc-uncle-carmine-because-of-you",
-    groupId: "misc",
-    title: "Because of You",
-    description: "A love song written for Linda, through Carmine's voice.",
-    tags: ["love-song", "classic-pop", "family"],
-    artwork: { src: PH_IMG },
-    audio: { sunoCoverUrl: PH_MP3 },
-    lyrics: {
-      text: `[Verse 1]
-I used to lie asleep at night
-Wondering if I'd feel love again
-As my mind finally drifts away
-I wake up hoping when
-
-[Verse 2]
-As time went by
-A friend said to me
-I know the sweetest girl for you
-And I wondered could it be
-At last I finally met you
-I was so nervous and shy
-But when you looked at me
-I felt something deep inside
-
-[Chorus]
-Never thought I'd fall in love again
-Linda now I know it's because of you
-Been so lonely since way back when
-But when I think of you my heart's no longer blue
-Linda (Linda)
-It's because of you
-Linda (Linda)
-It's because of you
-
-[Verse 3]
-Every time I see you
-I'd get that feeling more and more
-But I'll take it day by day
-And hope I know for sure
-Now time's gone by
-And I know that this is true
-I know I'm in love with you girl
-And Linda it's because of you
-
-[Chorus]
-Never thought I'd fall in love again
-Linda now I know it's because of you
-Been so lonely since way back when
-But when I think of you my heart's no longer blue
-Linda (Linda)
-It's because of you
-Linda (Linda)
-It's because of you`,
-    },
-    order: 1,
   },
 ];
